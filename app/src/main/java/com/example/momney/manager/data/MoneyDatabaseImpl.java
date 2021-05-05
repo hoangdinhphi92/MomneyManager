@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.List;
+
 
 public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase {
 
@@ -17,6 +19,11 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
 
     public MoneyDatabaseImpl(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VESION);
+    }
+
+    @Override
+    public List<MoneyEntry> getAllTransactions() {
+        return null;
     }
 
     @Override
