@@ -1,11 +1,13 @@
 package com.example.momney.manager.data;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,7 +25,16 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
 
     @Override
     public List<MoneyEntry> getAllTransactions() {
-        return null;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + DATABASE_NAME, null);
+        List<MoneyEntry> moneyEntries = new ArrayList<MoneyEntry>();
+        while (moneyDB.moveToNext()){
+            MoneyEntry moneyEntry = new MoneyEntry(moneyDB.getInt(0), moneyDB.getInt(1),
+                    moneyDB.getInt(2), moneyDB.getString(3));
+            moneyEntries.add(moneyEntry);
+
+        }
+        return moneyEntries;
     }
 
     @Override
