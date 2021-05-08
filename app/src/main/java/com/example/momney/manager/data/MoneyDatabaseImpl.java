@@ -1,5 +1,6 @@
 package com.example.momney.manager.data;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +13,10 @@ import java.util.List;
 
 
 public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase {
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_AMOUNT = "amount";
+    public static final String COLUMN_TIME = "time";
+    public static final String COLUMN_DESCRIPTION = "description";
 
     public static final String DATABASE_NAME = "money.db";
     public static final int DATABASE_VESION = 1;
@@ -34,15 +39,23 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
             moneyEntries.add(moneyEntry);
 
         }
+        moneyDB.close();
         return moneyEntries;
     }
 
     @Override
     public void insert(MoneyEntry money) {
+        // Gets the data repository in write mode
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO " + DATABASE_NAME + " VALUES (" +
-                "null, "+ money.getAmount() + ", " +
-                money.getTime() + ", '" + money.getDescription() + "')");
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_AMOUNT, money.getAmount());
+        values.put(COLUMN_DESCRIPTION, money.getDescription());
+        values.put(COLUMN_TIME, money.getTime());
+
+        // Insert the new row, returning the primary key value of the new row
+        db.insert(DATABASE_NAME, null, values);
     }
 
     @Override
@@ -62,10 +75,10 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + DATABASE_NAME + " (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "amount INTEGER," +
-                "time INTEGER," +
-                "description TEXT)");
+                COLUMN_ID + "INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_AMOUNT+ " INTEGER," +
+                COLUMN_TIME + " INTEGER," +
+                COLUMN_DESCRIPTION + "description TEXT)");
     }
 
     @Override
