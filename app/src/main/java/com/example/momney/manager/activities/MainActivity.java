@@ -1,8 +1,10 @@
-package com.example.momney.manager;
+package com.example.momney.manager.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.momney.manager.R;
 
 public class MainActivity extends AppCompatActivity {
 
