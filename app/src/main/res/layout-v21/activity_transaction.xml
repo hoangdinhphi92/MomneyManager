@@ -27,7 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/divider3"
@@ -50,7 +49,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/divider3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -113,7 +111,6 @@
         android:layout_width="60sp"
         android:layout_height="35sp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:background="@drawable/curency"
         android:gravity="center"
         android:text="@string/vnd"
@@ -133,6 +130,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:backgroundTint="@color/white"
         android:ems="10"
         android:gravity="right"
         android:inputType="number"
@@ -141,7 +139,8 @@
         app:layout_constraintEnd_toStartOf="@+id/curency"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/divider"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="LabelFor,RtlHardcoded"
+        android:autofillHints="" />
 
     <View
         android:id="@+id/chose_day"
@@ -156,27 +155,24 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        android:background="@drawable/calendar" />
+        android:background="@drawable/calendar"/>
 
     <TextView
         android:id="@+id/date"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/chose_day"
-        app:layout_constraintEnd_toStartOf="@+id/pick"
         app:layout_constraintStart_toEndOf="@+id/language_icon"
         app:layout_constraintTop_toTopOf="@+id/chose_day"
-        android:onClick="ChoseDate" />
+        android:onClick="ChoseDate"/>
 
     <ImageButton
         android:id="@+id/language_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:background="#00000000"
         app:layout_constraintBottom_toBottomOf="@+id/chose_day"
         app:layout_constraintStart_toStartOf="@+id/chose_day"
@@ -189,21 +185,26 @@
         android:id="@+id/add_note"
         android:layout_width="0dp"
         android:layout_height="200dp"
+        android:layout_margin="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:autofillHints=""
         android:background="@drawable/calendar"
         android:ems="10"
         android:gravity="start|top"
+        android:hint="@string/add_note"
         android:inputType="textMultiLine"
+        android:lineSpacingExtra="10sp"
+        android:paddingStart="16dp"
+        android:paddingTop="8sp"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chose_day"
-        android:autofillHints="@string/add_note"
-        tools:ignore="LabelFor" />
+        tools:ignore="LabelFor,RtlSymmetry" />
 
     <ImageButton
         android:id="@+id/pick"

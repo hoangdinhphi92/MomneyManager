@@ -4,13 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.momney.manager.R;
+import com.example.momney.manager.SettingActivity;
 import com.example.momney.manager.data.MoneyDatabase;
 import com.example.momney.manager.data.MoneyDatabaseImpl;
 import com.example.momney.manager.screen.MyPagerAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +25,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+        FloatingActionButton fab = findViewById(R.id.add_trans);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, TransactionActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
         database = new MoneyDatabaseImpl(this);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -58,5 +75,10 @@ public class MainActivity extends AppCompatActivity {
 
     public MoneyDatabase getDatabase() {
         return database;
+    }
+
+    public void Setting(View view) {
+        Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+        startActivity(intent);
     }
 }

@@ -21,22 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-        android:background="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/divider3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_setting"
-        tools:ignore="VectorDrawableCompat"
-        android:contentDescription="@string/setting" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_trans"
         android:layout_width="wrap_content"
@@ -61,6 +45,8 @@
 
     </com.google.android.material.tabs.TabLayout>
 
+
+
     <View
         android:id="@+id/divider3"
         android:layout_width="match_parent"
@@ -72,9 +58,9 @@
     <androidx.viewpager.widget.ViewPager
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/view_pager"
-    app:layout_constraintTop_toBottomOf="@id/divider3"
-    app:layout_constraintBottom_toTopOf="@id/tabLayout"/>
+    android:id="@+id/view_pager" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

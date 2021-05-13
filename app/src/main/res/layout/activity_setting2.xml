@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.TransactionActivity">
+    tools:context=".SettingActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/setting_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:text="@string/transaction"
+        android:text="@string/setting"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -20,22 +20,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-        android:background="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="@+id/divider3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_confirm"
-        tools:ignore="VectorDrawableCompat"
-        android:contentDescription="@string/confirm" />
 
     <View
         android:id="@+id/divider3"
@@ -46,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/cancel"
+        android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -54,7 +38,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/divider3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_cancel"
+        app:srcCompat="@drawable/back"
         tools:ignore="VectorDrawableCompat"
         android:onClick="Return"
         android:contentDescription="@string/back" />
@@ -71,41 +55,62 @@
         android:background="@drawable/income_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+        app:layout_constraintTop_toBottomOf="@+id/spending" />
 
     <Button
-        android:id="@+id/income_button"
+        android:id="@+id/week_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         android:background="#00000000"
-        android:onClick="ChoseIncome"
-        android:text="@string/income"
+        android:text="@string/week"
         android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/divider"
         app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+        app:layout_constraintTop_toTopOf="@+id/view" />
+
+    <Button
+        android:id="@+id/month_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:text="@string/month"
+        android:textColor="#CFC9C9"
+        app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintStart_toEndOf="@+id/divider"
+        app:layout_constraintTop_toTopOf="@+id/week_button" />
 
     <Button
         android:id="@+id/year_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="ChoseExpense"
-        android:text="@string/expense"
-        android:textColor="#CFC9C9"
         android:background="#00000000"
+        android:text="@string/year"
+        android:textColor="#CFC9C9"
         app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toEndOf="@+id/divider"
-        app:layout_constraintTop_toTopOf="@+id/income_button" />
+        app:layout_constraintStart_toEndOf="@+id/divider2"
+        app:layout_constraintTop_toTopOf="@+id/week_button" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="1dp"
         android:layout_height="36dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginLeft="128dp"
         android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/year_button" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="1dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginRight="128dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintTop_toTopOf="@+id/year_button" />
 
     <TextView
@@ -141,7 +146,21 @@
         app:layout_constraintEnd_toStartOf="@+id/curency"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/divider"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="LabelFor,RtlHardcoded"
+        android:autofillHints="" />
+
+    <TextView
+        android:id="@+id/spending"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/spending"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
     <View
         android:id="@+id/chose_day"
@@ -158,19 +177,6 @@
         app:layout_constraintTop_toBottomOf="@+id/view"
         android:background="@drawable/calendar" />
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/chose_day"
-        app:layout_constraintEnd_toStartOf="@+id/pick"
-        app:layout_constraintStart_toEndOf="@+id/language_icon"
-        app:layout_constraintTop_toTopOf="@+id/chose_day"
-        android:onClick="ChoseDate" />
-
     <ImageButton
         android:id="@+id/language_icon"
         android:layout_width="wrap_content"
@@ -181,29 +187,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/chose_day"
         app:layout_constraintStart_toStartOf="@+id/chose_day"
         app:layout_constraintTop_toTopOf="@+id/chose_day"
-        app:srcCompat="@mipmap/calendar"
-        android:onClick="ChoseDate"
+        app:srcCompat="@mipmap/language"
+        android:onClick="ChoseLanguage"
         android:contentDescription="@string/chose_date" />
-
-    <EditText
-        android:id="@+id/add_note"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/calendar"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chose_day"
-        android:autofillHints="@string/add_note"
-        tools:ignore="LabelFor" />
 
     <ImageButton
         android:id="@+id/pick"
@@ -215,7 +201,40 @@
         app:srcCompat="@drawable/pick"
         android:background="#00000000"
         tools:ignore="VectorDrawableCompat"
-        android:onClick="ChoseDate"
+        android:onClick="ChoseLanguage"
         android:contentDescription="@string/chose_date" />
+
+    <TextView
+        android:id="@+id/language"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/language"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/language_icon"
+        app:layout_constraintEnd_toStartOf="@+id/cur_languege"
+        app:layout_constraintStart_toEndOf="@+id/language_icon"
+        app:layout_constraintTop_toTopOf="@+id/language_icon"
+        android:onClick="ChoseLanguage"/>
+
+    <TextView
+        android:id="@+id/cur_languege"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/english"
+        android:gravity="right"
+        android:textSize="18sp"
+        android:textColor="@color/blue"
+        app:layout_constraintBottom_toBottomOf="@+id/pick"
+        app:layout_constraintEnd_toStartOf="@+id/pick"
+        app:layout_constraintStart_toEndOf="@+id/month_button"
+        app:layout_constraintTop_toTopOf="@+id/pick"
+        tools:ignore="RtlHardcoded"
+        android:onClick="ChoseLanguage"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,9 +6,23 @@
     <string name="setting">Setting</string>
     <string name="income">Income</string>
     <string name="expense">Expense</string>
+    <string name="transaction">Transaction</string>
+    <string name="confirm">Confirm</string>
+    <string name="back">Back</string>
+    <string name="add_note">Add Note...</string>
     <string-array name="time_array">
         <item>All Time</item>
         <item>Month</item>
         <item>Year</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="chose_date">Chose Date</string>
+    <string name="vnd">VND</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="spending">Spending</string>
+    <string name="language">Language</string>
+    <string name="english">English</string>
 </resources>
