@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(R.string.wallet);
 
         final ViewPager viewPager = findViewById(R.id.view_pager);
-        final MyPagerAdapter adapter = new MyPagerAdapter
+        final PagerAdapter adapter = new MyPagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
