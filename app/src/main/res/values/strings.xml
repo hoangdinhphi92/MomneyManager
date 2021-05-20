@@ -13,7 +13,7 @@
     <string-array name="time_array">
         <item>All Time</item>
         <item>Month</item>
-        <item>Year</item>
+        <item>Week</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -25,4 +25,44 @@
     <string name="spending">Spending</string>
     <string name="language">Language</string>
     <string name="english">English</string>
+    <string name="chose_content">Chose content</string>
+    <string name="chose_language">Chose Language</string>
+    <string name="vietnam">Tiếng Việt</string>
+    <string name="chinese">中国人</string>
+    <string name="japanese">日本語</string>
+    <string-array name="content">
+        <item>Eating</item>
+        <item>Travel</item>
+        <item>Sport</item>
+        <item>House rent</item>
+        <item>Bill</item>
+        <item>Health</item>
+        <item>Education</item>
+        <item>Game</item>
+        <item>Online Services</item>
+        <item>Salary</item>
+        <item>Houseware</item>
+        <item>Transfers</item>
+        <item>Pet</item>
+        <item>Vehicle</item>
+        <item>Others</item>
+    </string-array>
+
+    <array name="content_images">
+        <item>@drawable/img_eating</item>
+        <item>@drawable/img_travel</item>
+        <item>@drawable/img_sport</item>
+        <item>@drawable/img_house</item>
+        <item>@drawable/img_bill</item>
+        <item>@drawable/img_health</item>
+        <item>@drawable/img_education</item>
+        <item>@drawable/img_game</item>
+        <item>@drawable/img_services</item>
+        <item>@drawable/img_salary</item>
+        <item>@drawable/img_houseware</item>
+        <item>@drawable/img_transfer</item>
+        <item>@drawable/img_pet</item>
+        <item>@drawable/img_vehicle</item>
+        <item>@drawable/img_other</item>
+    </array>
 </resources>

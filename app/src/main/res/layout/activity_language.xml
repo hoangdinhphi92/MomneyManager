@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.LanguageActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/icon_back"
+            android:src="@drawable/back"
+            android:background="#00000000"
+            android:onClick="Confirm"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/header"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/chose_language"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/gr_language"
+        android:layout_gravity="right">
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/english"
+            android:textSize="18sp"
+            android:button="@drawable/check_button"
+            android:id="@+id/en"
+            android:padding="8dp" />
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/vietnam"
+            android:textSize="18sp"
+            android:id="@+id/vi"
+            android:button="@drawable/check_button"
+            android:padding="8dp" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/chinese"
+            android:textSize="18sp"
+            android:id="@+id/zh"
+            android:button="@drawable/check_button"
+            android:padding="8dp" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/japanese"
+            android:textSize="18sp"
+            android:id="@+id/ja"
+            android:button="@drawable/check_button"
+            android:padding="8dp" />
+
+
+
+
+
+    </RadioGroup>
+</LinearLayout>

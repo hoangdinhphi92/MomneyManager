@@ -6,6 +6,241 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.TransactionActivity">
 
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider3" >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginRight="14dp"
+                android:background="@drawable/income_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/year_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="ChoseExpense"
+                android:text="@string/expense"
+                android:textColor="#CFC9C9"
+                android:background="#00000000"
+                app:layout_constraintEnd_toEndOf="@+id/view"
+                app:layout_constraintStart_toEndOf="@+id/divider"
+                app:layout_constraintTop_toTopOf="@+id/income_button" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="1dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="8dp"
+                android:background="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="@+id/view"
+                app:layout_constraintStart_toStartOf="@+id/view"
+                app:layout_constraintTop_toTopOf="@+id/year_button" />
+
+            <TextView
+                android:id="@+id/curency"
+                android:layout_width="60sp"
+                android:layout_height="35sp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/curency"
+                android:gravity="center"
+                android:text="@string/vnd"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/amount"
+                app:layout_constraintEnd_toEndOf="@+id/view"
+                app:layout_constraintTop_toTopOf="@+id/amount" />
+
+            <EditText
+                android:id="@+id/amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:ems="10"
+                android:gravity="right"
+                android:inputType="number"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/curency"
+                app:layout_constraintStart_toStartOf="@+id/view"
+                app:layout_constraintTop_toBottomOf="@+id/divider"
+                tools:ignore="RtlHardcoded" />
+
+            <View
+                android:id="@+id/chose_day"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/view"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/view"
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                android:background="@drawable/calendar" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/chose_day"
+                app:layout_constraintEnd_toStartOf="@+id/pick"
+                app:layout_constraintStart_toEndOf="@+id/calendar_icon"
+                app:layout_constraintTop_toTopOf="@+id/chose_day"
+                android:onClick="ChoseDate" />
+
+            <ImageButton
+                android:id="@+id/calendar_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:background="#00000000"
+                app:layout_constraintBottom_toBottomOf="@+id/chose_day"
+                app:layout_constraintStart_toStartOf="@+id/chose_day"
+                app:layout_constraintTop_toTopOf="@+id/chose_day"
+                app:srcCompat="@mipmap/calendar"
+                android:onClick="ChoseDate"
+                android:contentDescription="@string/chose_date" />
+
+            <EditText
+                android:id="@+id/add_note"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_margin="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:autofillHints="@string/add_note"
+                android:background="@drawable/calendar"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="@string/add_note"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="10sp"
+                android:paddingStart="16dp"
+                android:paddingLeft="16dp"
+                android:paddingTop="8sp"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chose_content"
+                tools:ignore="LabelFor,RtlSymmetry" />
+
+            <ImageButton
+                android:id="@+id/pick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/chose_day"
+                app:layout_constraintEnd_toEndOf="@+id/chose_day"
+                app:layout_constraintTop_toTopOf="@+id/chose_day"
+                app:srcCompat="@drawable/pick"
+                android:background="#00000000"
+                tools:ignore="VectorDrawableCompat"
+                android:onClick="ChoseDate"
+                android:contentDescription="@string/chose_date" />
+
+            <View
+                android:id="@+id/chose_content"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/view"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/view"
+                app:layout_constraintTop_toBottomOf="@+id/chose_day"
+                android:background="@drawable/calendar" />
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:onClick="ChoseContent"
+                android:text="@string/chose_content"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/chose_content"
+                app:layout_constraintEnd_toStartOf="@+id/pick_content"
+                app:layout_constraintStart_toStartOf="@+id/date"
+                app:layout_constraintTop_toTopOf="@+id/chose_content" />
+
+            <ImageButton
+                android:id="@+id/content_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:background="#00000000"
+                app:layout_constraintBottom_toBottomOf="@+id/chose_content"
+                app:layout_constraintStart_toStartOf="@+id/chose_content"
+                app:layout_constraintTop_toTopOf="@+id/chose_content"
+                android:onClick="ChoseContent"
+                android:contentDescription="@string/chose_date"
+                android:src="@drawable/ic_nothing"/>
+
+            <ImageButton
+                android:id="@+id/pick_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/chose_content"
+                app:layout_constraintEnd_toEndOf="@+id/chose_content"
+                app:layout_constraintTop_toTopOf="@+id/chose_content"
+                app:srcCompat="@drawable/pick"
+                android:background="#00000000"
+                tools:ignore="VectorDrawableCompat"
+                android:onClick="ChoseContent"
+                android:contentDescription="@string/chose_date" />
+
+
+            <Button
+                android:id="@+id/income_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="#00000000"
+                android:onClick="ChoseIncome"
+                android:text="@string/income"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@+id/divider"
+                app:layout_constraintStart_toStartOf="@+id/view"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -35,7 +270,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_confirm"
         tools:ignore="VectorDrawableCompat"
-        android:contentDescription="@string/confirm" />
+        android:contentDescription="@string/confirm"
+        android:onClick="Submit"/>
 
     <View
         android:id="@+id/divider3"
@@ -44,7 +280,6 @@
         android:layout_marginTop="48dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
@@ -59,163 +294,10 @@
         android:onClick="Return"
         android:contentDescription="@string/back" />
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="160dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginRight="14dp"
-        android:background="@drawable/income_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
-    <Button
-        android:id="@+id/income_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="#00000000"
-        android:onClick="ChoseIncome"
-        android:text="@string/income"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/divider"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
-    <Button
-        android:id="@+id/year_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="ChoseExpense"
-        android:text="@string/expense"
-        android:textColor="#CFC9C9"
-        android:background="#00000000"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toEndOf="@+id/divider"
-        app:layout_constraintTop_toTopOf="@+id/income_button" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="1dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="8dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/year_button" />
 
-    <TextView
-        android:id="@+id/curency"
-        android:layout_width="60sp"
-        android:layout_height="35sp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/curency"
-        android:gravity="center"
-        android:text="@string/vnd"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/amount"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/amount" />
 
-    <EditText
-        android:id="@+id/amount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:ems="10"
-        android:gravity="right"
-        android:inputType="number"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/curency"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        tools:ignore="RtlHardcoded" />
-
-    <View
-        android:id="@+id/chose_day"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        android:background="@drawable/calendar" />
-
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/chose_day"
-        app:layout_constraintEnd_toStartOf="@+id/pick"
-        app:layout_constraintStart_toEndOf="@+id/language_icon"
-        app:layout_constraintTop_toTopOf="@+id/chose_day"
-        android:onClick="ChoseDate" />
-
-    <ImageButton
-        android:id="@+id/language_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:background="#00000000"
-        app:layout_constraintBottom_toBottomOf="@+id/chose_day"
-        app:layout_constraintStart_toStartOf="@+id/chose_day"
-        app:layout_constraintTop_toTopOf="@+id/chose_day"
-        app:srcCompat="@mipmap/calendar"
-        android:onClick="ChoseDate"
-        android:contentDescription="@string/chose_date" />
-
-    <EditText
-        android:id="@+id/add_note"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/calendar"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chose_day"
-        android:autofillHints="@string/add_note"
-        tools:ignore="LabelFor" />
-
-    <ImageButton
-        android:id="@+id/pick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/chose_day"
-        app:layout_constraintEnd_toEndOf="@+id/chose_day"
-        app:layout_constraintTop_toTopOf="@+id/chose_day"
-        app:srcCompat="@drawable/pick"
-        android:background="#00000000"
-        tools:ignore="VectorDrawableCompat"
-        android:onClick="ChoseDate"
-        android:contentDescription="@string/chose_date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
