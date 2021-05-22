@@ -1,7 +1,7 @@
 package com.example.momney.manager.screen.wallet.data;
 
 public class DateHeader implements TransactionData {
-    private long date;
+    private long date; // ms
 
     public DateHeader(long date) {
         this.date = date;

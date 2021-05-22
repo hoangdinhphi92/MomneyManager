@@ -13,11 +13,8 @@ import com.example.momney.manager.screen.wallet.viewholder.DateViewHolder;
 import com.example.momney.manager.screen.wallet.viewholder.MoneyViewHolder;
 import com.example.momney.manager.screen.wallet.viewholder.TotalHeaderViewHolder;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -48,14 +45,13 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @NonNull
-    @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TOTAL_HEADER_TYPE) {
             return TotalHeaderViewHolder.create(parent);
-        } else  if (viewType == DATE_HEADER_TYPE) {
+        } else if (viewType == DATE_HEADER_TYPE) {
             return DateViewHolder.create(parent);
-        } else  if (viewType == MONEY_ITEM_TYPE) {
+        } else if (viewType == MONEY_ITEM_TYPE) {
             return MoneyViewHolder.create(parent);
         }
 
@@ -63,8 +59,15 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        TransactionData data = items.get(position);
+        if (holder instanceof TotalHeaderViewHolder) {
+            ((TotalHeaderViewHolder) holder).build((TotalHeader) data);
+        } else if (holder instanceof DateViewHolder) {
+            ((DateViewHolder) holder).build((DateHeader) data);
+        } else if (holder instanceof MoneyViewHolder) {
+            ((MoneyViewHolder) holder).build((MoneyData) data);
+        }
     }
 
     @Override

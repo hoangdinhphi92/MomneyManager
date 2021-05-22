@@ -12,8 +12,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.momney.manager.ChoseDate;
@@ -21,10 +19,8 @@ import com.example.momney.manager.R;
 import com.example.momney.manager.data.MoneyDatabase;
 import com.example.momney.manager.data.MoneyDatabaseImpl;
 import com.example.momney.manager.data.MoneyEntry;
-import com.example.momney.manager.screen.WalletFragment;
 
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;

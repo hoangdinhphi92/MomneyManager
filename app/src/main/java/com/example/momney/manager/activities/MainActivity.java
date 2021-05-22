@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,12 +15,9 @@ import android.widget.Toast;
 import com.example.momney.manager.R;
 import com.example.momney.manager.SettingActivity;
 import com.example.momney.manager.data.MoneyDatabase;
-import com.example.momney.manager.data.MoneyDatabaseImpl;
-import com.example.momney.manager.data.MoneyEntry;
 import com.example.momney.manager.screen.MyPagerAdapter;
-import com.example.momney.manager.screen.WalletFragment;
+import com.example.momney.manager.screen.wallet.WalletFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;

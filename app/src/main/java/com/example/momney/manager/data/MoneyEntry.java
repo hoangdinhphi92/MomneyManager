@@ -2,8 +2,8 @@ package com.example.momney.manager.data;
 
 public class MoneyEntry {
     private int id;
-    private int amount;
-    private int time;
+    private int amount; // vnd
+    private int time; // ms
     private String content;
     private String description;
 

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.momney.manager.screen.wallet.WalletFragment;
+
 public class MyPagerAdapter extends FragmentStatePagerAdapter {
 
     int mNumOfTabs;
