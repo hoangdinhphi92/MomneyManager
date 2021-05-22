@@ -9,6 +9,8 @@ import com.example.momney.manager.screen.wallet.data.DateHeader;
 import com.example.momney.manager.screen.wallet.data.MoneyData;
 import com.example.momney.manager.screen.wallet.data.TotalHeader;
 import com.example.momney.manager.screen.wallet.data.TransactionData;
+import com.example.momney.manager.screen.wallet.viewholder.DateViewHolder;
+import com.example.momney.manager.screen.wallet.viewholder.MoneyViewHolder;
 import com.example.momney.manager.screen.wallet.viewholder.TotalHeaderViewHolder;
 
 import org.jetbrains.annotations.NotNull;
@@ -52,9 +54,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (viewType == TOTAL_HEADER_TYPE) {
             return TotalHeaderViewHolder.create(parent);
         } else  if (viewType == DATE_HEADER_TYPE) {
-            //return view holder for date header
+            return DateViewHolder.create(parent);
         } else  if (viewType == MONEY_ITEM_TYPE) {
-            //return view holder for money item
+            return MoneyViewHolder.create(parent);
         }
 
         throw new IllegalArgumentException("Not support viewtype = " + viewType);

@@ -80,7 +80,7 @@ public class TransactionActivity extends AppCompatActivity {
         mExpense = findViewById(R.id.year_button);
         mDate = findViewById(R.id.date);
         Calendar calendar = Calendar.getInstance();
-        dateChose = calendar.get(Calendar.DATE) + calendar.get(Calendar.MONTH)*100 +
+        dateChose = calendar.get(Calendar.DATE)*1000000 + calendar.get(Calendar.MONTH)*10000 +
                 calendar.get(Calendar.YEAR);
         mDate.setText(getDateString(calendar.getTime())) ;
         mIcon = findViewById(R.id.content_icon);
@@ -170,7 +170,7 @@ public class TransactionActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year,month,day);
         mDate.setText(getDateString(calendar.getTime()));
-        dateChose = year*10000+month*100+day;
+        dateChose =day*1000000+month*10000+year;
 
     }
 
@@ -190,25 +190,27 @@ public class TransactionActivity extends AppCompatActivity {
 
     public void Submit(View view) {
 
-        Intent intent = new Intent(this, MainActivity.class);
+
 
         if(mAmount.getText().toString().length()!=0 ) {
+            Intent intent = new Intent(this, MainActivity.class);
             int i = Integer.parseInt(mAmount.getText().toString());
-            Bundle bundle = new Bundle();
-            bundle.putInt("new_amount", i * choseInc);
-            bundle.putInt("new_date", dateChose);
-            bundle.putString("new_content", mContent.getText().toString());
-            bundle.putInt("new_icon", mIcon.getImageAlpha());
-            if(mNote.getText().toString().length()!=0){
-                bundle.putBoolean("new_desc", true);
-                bundle.putString("new_desc", mNote.getText().toString());
-            }
-            intent.putExtra("newMoney", bundle);
+            MoneyDatabase db = new MoneyDatabaseImpl(this);
+            MoneyEntry money = new MoneyEntry(i*choseInc, dateChose, mContent.getText().toString(), mNote.getText().toString());
+
+            db.insert(money);
+            startActivity(intent);
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("new_amount", i * choseInc);
+//            bundle.putInt("new_date", dateChose);
+//            bundle.putString("new_content", mContent.getText().toString());
+//            bundle.putInt("new_icon", mIcon.getImageAlpha());
+//            if(mNote.getText().toString().length()!=0){
+//                bundle.putBoolean("new_desc", true);
+//                bundle.putString("new_desc", mNote.getText().toString());
         }
 
 
-
-        startActivity(intent);
 
 
     }

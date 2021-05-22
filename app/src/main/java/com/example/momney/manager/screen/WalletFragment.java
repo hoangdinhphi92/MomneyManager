@@ -2,8 +2,11 @@ package com.example.momney.manager.screen;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,13 +25,17 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.momney.manager.R;
 import com.example.momney.manager.activities.MainActivity;
+import com.example.momney.manager.activities.TransactionActivity;
 import com.example.momney.manager.data.Content;
 import com.example.momney.manager.data.MoneyDatabase;
 import com.example.momney.manager.data.MoneyDatabaseImpl;
 import com.example.momney.manager.data.MoneyEntry;
 import com.example.momney.manager.data.Transaction;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class WalletFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -49,10 +57,11 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
         mIncome = v.findViewById(R.id.total_income) ;
         mExpense = v.findViewById(R.id.total_expense);
         mainActivity = (MainActivity) getActivity();
-        if(mainActivity.getBundle()!= null) {
-            Toast m = Toast.makeText(v.getContext(), mainActivity.getBundle().getInt("new_date"), Toast.LENGTH_SHORT);
-            m.show();
-        }
+
+//        if(mainActivity.getBundle()!= null) {
+//            Toast m = Toast.makeText(v.getContext(), mainActivity.getBundle().getInt("new_date"), Toast.LENGTH_SHORT);
+//            m.show();
+//        }
         initSpiner(v);
 
 
@@ -65,10 +74,12 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
 //            m.show();
 //        }
 //        database.deleteTable();
+//        String[] contentList = getResources()
+//                .getStringArray(R.array.content);
 //
 //        for(int i=0; i<contentList.length; i++) {
 //            int n = (i%2 == 1) ? 1 :-1;
-//            MoneyEntry a = new MoneyEntry(i+1, i*n*5000 , 15202000, contentList[i], "T7");
+//            MoneyEntry a = new MoneyEntry(i+1, i*n*5000 , "15-"+String.valueOf(i)+"-2000", contentList[i], "T7");
 //            database.insert(a);
 //        }
 
@@ -108,7 +119,7 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
         ArrayList<String> description = new ArrayList<>();
         ArrayList<Integer> amount = new ArrayList<>();
         ArrayList<Integer> icon = new ArrayList<>();
-
+        database.delete(moneyEntries.get(moneyEntries.size()-1));
         for (MoneyEntry moneyEntry: moneyEntries){
             content.add(moneyEntry.getContent());
             description.add(moneyEntry.getDescription());
@@ -175,6 +186,53 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull @NotNull MenuItem item) {
+        switch (item.getItemId()){
+            case 12:
+                edit(item.getGroupId());
+                return true;
+            case 13:
+                delete(item.getGroupId());
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+
+    }
+
+    private void delete(int groupId) {
+        ArrayList<MoneyEntry> moneyEntries = (ArrayList<MoneyEntry>) database.getAllTransactions();
+        AlertDialog.Builder myAlertBuilder = new
+                AlertDialog.Builder(getActivity());
+        myAlertBuilder.setTitle("Alert");
+        myAlertBuilder.setMessage("Do you want to delete this transaction?");
+        myAlertBuilder.setPositiveButton("OK", new
+                DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        mAdapter.notifyItemRemoved(groupId);
+                        database.delete(moneyEntries.get(groupId));
+                    }
+                });
+        myAlertBuilder.setNegativeButton("Cancel", new
+                DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        myAlertBuilder.show();
+
+    }
+
+    private void edit(int groupId) {
+        ArrayList<MoneyEntry> moneyEntries = (ArrayList<MoneyEntry>) database.getAllTransactions();
+        Intent intent = new Intent(getActivity(), TransactionActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("cur_amount", moneyEntries.get(groupId).getAmount());
+
 
     }
 }

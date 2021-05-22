@@ -2,6 +2,7 @@ package com.example.momney.manager.screen;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -30,7 +32,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         this.mContext = mContext;
     }
 
-
     @Override
     public TransHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new TransactionAdapter.TransHolder(LayoutInflater.from(mContext).
@@ -49,13 +50,14 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         return transactions.size();
     }
 
-    public class TransHolder extends RecyclerView.ViewHolder {
+    public class TransHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
         private TextView mContent;
         private TextView mDecription;
         private TextView mAmount;
         private ImageView mIcon;
         private Transaction transaction;
+        private CardView mCardView;
         public TransHolder(@NonNull @NotNull View itemView) {
 
             super(itemView);
@@ -63,6 +65,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             mDecription = itemView.findViewById(R.id.description);
             mAmount = itemView.findViewById(R.id.amount_spend);
             mIcon = itemView.findViewById(R.id.content_img);
+            mCardView = itemView.findViewById(R.id.cardview);
+            mCardView.setOnCreateContextMenuListener(this);
         }
 
         @SuppressLint({"ResourceAsColor"})
@@ -73,14 +77,21 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             mDecription.setText(currentTransaction.getDescription());
 
             if (currentTransaction.getAmount()>0) {
-                mAmount.setText("+" + currentTransaction.getAmount() + " VND ");
+                mAmount.setText("+" + currentTransaction.getAmount());
                 mAmount.setTextColor(R.color.blue);
             }
             else {
-                mAmount.setText(currentTransaction.getAmount() + " VND ");
+                mAmount.setText(String.valueOf(currentTransaction.getAmount()));
                 mAmount.setTextColor(R.color.expense);
             }
             Glide.with(mContent).load(currentTransaction.getImageResource()).into(mIcon);
+
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(this.getAdapterPosition(), 12, 0, "Edit");
+            menu.add(this.getAdapterPosition(), 13, 1, "Delete");
 
         }
     }
