@@ -3,18 +3,18 @@ package com.example.momney.manager.data;
 public class MoneyEntry {
     private int id;
     private int amount; // vnd
-    private int time; // ms
+    private long time; // ms
     private String content;
     private String description;
 
-    public MoneyEntry(int id, int amount, int time,String content, String description) {
+    public MoneyEntry(int id, int amount, long time,String content, String description) {
         this.amount = amount;
         this.content = content;
         this.time = time;
         this.description = description;
     }
 
-    public MoneyEntry(int amount, int time, String content, String description) {
+    public MoneyEntry(int amount, long time, String content, String description) {
         this.amount = amount;
         this.time = time;
         this.content = content;
@@ -41,11 +41,11 @@ public class MoneyEntry {
 
     public void setContent(String content) { this.content = content; }
 
-    public int getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

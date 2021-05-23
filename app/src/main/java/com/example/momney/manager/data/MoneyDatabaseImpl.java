@@ -33,7 +33,7 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
     @Override
     public List<MoneyEntry> getAllTransactions() {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME, null);
+        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+ " ORDER BY (" + COLUMN_TIME + ")", null);
         List<MoneyEntry> moneyEntries = new ArrayList<MoneyEntry>();
         while (moneyDB.moveToNext()){
             MoneyEntry moneyEntry = new MoneyEntry(moneyDB.getInt(0),moneyDB.getInt(1),

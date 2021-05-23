@@ -12,8 +12,8 @@ import com.example.momney.manager.R;
 import com.example.momney.manager.screen.wallet.data.TotalHeader;
 
 public class TotalHeaderViewHolder extends RecyclerView.ViewHolder {
-    private TextView totalIncome;
-    private TextView totalExpense;
+    private final TextView totalIncome;
+    private final TextView totalExpense;
 
     public TotalHeaderViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -23,8 +23,8 @@ public class TotalHeaderViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void build(TotalHeader totalHeader) {
-        totalIncome.setText(totalHeader.getIncome() + "VND");
-        totalExpense.setText(totalHeader.getExpense() + "VND");
+        totalIncome.setText( String.format("%sVND",totalHeader.getIncome()));
+        totalExpense.setText( String.format("%sVND",totalHeader.getExpense()));
     }
 
     public static TotalHeaderViewHolder create(ViewGroup parent) {

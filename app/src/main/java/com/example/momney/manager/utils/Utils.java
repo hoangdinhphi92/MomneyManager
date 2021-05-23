@@ -7,6 +7,14 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import static java.util.Calendar.FRIDAY;
+import static java.util.Calendar.MONDAY;
+import static java.util.Calendar.SATURDAY;
+import static java.util.Calendar.SUNDAY;
+import static java.util.Calendar.THURSDAY;
+import static java.util.Calendar.TUESDAY;
+import static java.util.Calendar.WEDNESDAY;
+
 public class Utils {
     public static String millisecondToString(long ms) {
         Calendar date = Calendar.getInstance();
@@ -17,17 +25,60 @@ public class Utils {
         int year = date.get(Calendar.YEAR);
 
         Calendar calendar = Calendar.getInstance();
-        Calendar yesterday = Calendar.getInstance();
-        yesterday.roll(Calendar.DATE, -1);
 
-        /*if (day) {
-            return "Today";
-        } else if (newDate.getTime().equals(yesterday.getTime())) {
-            return "Yesterday";
-        } else {
-            return formatedDate;
-        }*/
-        return "";
+        int today = calendar.get(Calendar.DAY_OF_MONTH);
+        int thisMonth = calendar.get(Calendar.MONTH);
+        int thisYear = calendar.get(Calendar.YEAR);
+
+        if (day == today && month == thisMonth && year == thisYear) return "Today";
+        else if (day == today - 1 && month == thisMonth && year == thisYear) return "Yesterday";
+        else return date + "/" + month + "/" + year;
+    }
+
+    public static boolean differentDate(long a, long b){
+        Calendar date1 = Calendar.getInstance();
+        date1.setTimeInMillis(a);
+        Calendar date2 = Calendar.getInstance();
+        date1.setTimeInMillis(b);
+        return date1.get(Calendar.DAY_OF_YEAR) != date2.get(Calendar.DAY_OF_YEAR);
+    }
+
+    public static String millisecondToDateInWeek(long ms) {
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(ms);
+        int day = date.get(Calendar.DAY_OF_MONTH);
+        int month = date.get(Calendar.MONTH);
+        int year = date.get(Calendar.YEAR);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.getTimeInMillis();
+
+        int today = calendar.get(Calendar.DAY_OF_MONTH);
+        int thisMonth = calendar.get(Calendar.MONTH);
+        int thisYear = calendar.get(Calendar.YEAR);
+
+        if (day == today && month == thisMonth && year == thisYear) return "Today";
+        else if (day == today - 1 && month == thisMonth && year == thisYear) return "Yesterday";
+        else
+            switch (date.get(Calendar.DAY_OF_WEEK)) {
+                case MONDAY:
+                    return "Monday";
+                case TUESDAY:
+                    return "Tuesday";
+                case WEDNESDAY:
+                    return "Wednesday";
+                case THURSDAY:
+                    return "Thursday";
+                case FRIDAY:
+                    return "Friday";
+                case SATURDAY:
+                    return "Saturday";
+                case SUNDAY:
+                    return "Sunday";
+                default:
+                    return "";
+            }
+
     }
 
     public static int contentToIcon(String content) {

@@ -41,9 +41,8 @@ public class TransactionActivity extends AppCompatActivity {
     EditText mAmount;
     EditText mNote;
 
-    int dateChose;
+    long dateChose;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,9 +75,8 @@ public class TransactionActivity extends AppCompatActivity {
         mExpense = findViewById(R.id.year_button);
         mDate = findViewById(R.id.date);
         Calendar calendar = Calendar.getInstance();
-        dateChose = calendar.get(Calendar.DATE)*1000000 + calendar.get(Calendar.MONTH)*10000 +
-                calendar.get(Calendar.YEAR);
-        mDate.setText(getDateString(calendar.getTime())) ;
+        dateChose = calendar.getTimeInMillis();
+        mDate.setText(getDateString(dateChose)) ;
         mIcon = findViewById(R.id.content_icon);
         mContent = findViewById(R.id.content);
         mNote = findViewById(R.id.add_note);
@@ -106,14 +104,18 @@ public class TransactionActivity extends AppCompatActivity {
         }
     }
 
-    public static String getDateString(Date date) {
+    public static String getDateString(long date) {
+        Calendar thisDate = Calendar.getInstance();
+        thisDate.setTimeInMillis(date);
         Calendar calendar = Calendar.getInstance();
-        Calendar yesterday = Calendar.getInstance();
-        yesterday.roll(Calendar.DATE, -1);
-        @SuppressLint ("SimpleDateFormat") SimpleDateFormat format;
-        if(date.equals(calendar.getTime())) {format = new SimpleDateFormat("MMM d, yyyy", Locale.US);
+//        long curDate = calendar.getTimeInMillis();
+//        Calendar yesterday = Calendar.getInstance();
+//        yesterday.roll(Calendar.DATE, -1);
+//        long lastDate = yesterday.getTimeInMillis();
+        SimpleDateFormat format;
+        if(thisDate.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR)) {format = new SimpleDateFormat("MMM d, yyyy", Locale.US);
         return "Today, " + format.format(date);}
-        else  if(date.equals(yesterday.getTime())) {
+        else  if(thisDate.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR)-1) {
             format = new SimpleDateFormat("MMM d, yyyy", Locale.US);
             return "Yesterday, " + format.format(date);}
         else {
@@ -161,12 +163,12 @@ public class TransactionActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(),"datePicker");
     }
 
-    @SuppressLint("SetTextI18n")
     public void processDatePickerResult(int year, int month, int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year,month,day);
-        mDate.setText(getDateString(calendar.getTime()));
-        dateChose =day*1000000+month*10000+year;
+        dateChose = calendar.getTimeInMillis();
+        mDate.setText(getDateString(dateChose));
+
 
     }
 
@@ -186,14 +188,11 @@ public class TransactionActivity extends AppCompatActivity {
 
     public void Submit(View view) {
 
-
-
         if(mAmount.getText().toString().length()!=0 ) {
             Intent intent = new Intent(this, MainActivity.class);
             int i = Integer.parseInt(mAmount.getText().toString());
             MoneyDatabase db = new MoneyDatabaseImpl(this);
             MoneyEntry money = new MoneyEntry(i*choseInc, dateChose, mContent.getText().toString(), mNote.getText().toString());
-
             db.insert(money);
             startActivity(intent);
 //            Bundle bundle = new Bundle();

@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.momney.manager.R;
 import com.example.momney.manager.screen.wallet.data.DateHeader;
+import com.example.momney.manager.utils.Utils;
 
 import org.jetbrains.annotations.NotNull;
 
 public class DateViewHolder extends RecyclerView.ViewHolder {
-    private TextView dateHeader;
+    private final TextView dateHeader;
 
     public DateViewHolder(@NonNull @NotNull View itemView) {
         super(itemView);
@@ -22,7 +23,7 @@ public class DateViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void build(DateHeader dateHeader1){
-        dateHeader.setText(String.valueOf(dateHeader1.getDate()));
+        dateHeader.setText(Utils.millisecondToString(dateHeader1.getDate()));
     }
 
     public static DateViewHolder create(ViewGroup parent){

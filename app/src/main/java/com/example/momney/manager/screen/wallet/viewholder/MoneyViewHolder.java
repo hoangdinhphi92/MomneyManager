@@ -26,12 +26,12 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class MoneyViewHolder extends RecyclerView.ViewHolder {
-    private TextView numDate;
-    private TextView textDate;
-    private TextView content;
-    private TextView description;
-    private TextView amountSpent;
-    private ImageView transIcon;
+    private final TextView numDate;
+    private final TextView textDate;
+    private final TextView content;
+    private final TextView description;
+    private final TextView amountSpent;
+    private final ImageView transIcon;
 
     public MoneyViewHolder(@NonNull @NotNull View itemView) {
         super(itemView);
@@ -46,9 +46,11 @@ public class MoneyViewHolder extends RecyclerView.ViewHolder {
     public void build(MoneyData moneyData) {
         MoneyEntry entry = moneyData.getMoneyEntry();
 
-        int date = entry.getTime() / 1000000;
-        numDate.setText(String.valueOf(date));
-        textDate.setText(Utils.millisecondToString(entry.getTime()));
+        Calendar calendar = Calendar.getInstance();
+        long date = entry.getTime();
+        calendar.setTimeInMillis(date);
+        numDate.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        textDate.setText(Utils.millisecondToDateInWeek(entry.getTime()));
         content.setText(entry.getContent());
         description.setText(entry.getDescription());
         int amount = moneyData.getMoneyEntry().getAmount();

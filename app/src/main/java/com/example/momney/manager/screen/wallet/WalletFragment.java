@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +29,10 @@ import com.example.momney.manager.data.MoneyEntry;
 import com.example.momney.manager.data.Transaction;
 import com.example.momney.manager.screen.wallet.data.DateHeader;
 import com.example.momney.manager.screen.wallet.data.MoneyData;
+import com.example.momney.manager.screen.wallet.data.TotalHeader;
 import com.example.momney.manager.screen.wallet.data.TransactionData;
+import com.example.momney.manager.screen.wallet.viewholder.DateViewHolder;
+import com.example.momney.manager.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,13 +61,13 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
         super.onViewCreated(view, savedInstanceState);
         initRecycleView(view);
         initSpinner(view);
+        database = new MoneyDatabaseImpl(getContext());
         updateData();
     }
 
     private void initRecycleView(View view) {
         recyclerView = view.findViewById(R.id.transaction);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
         adapter = new TransactionAdapter();
         recyclerView.setAdapter(adapter);
     }
@@ -86,10 +90,34 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
     private void updateData() {
         ArrayList<TransactionData> items = new ArrayList<>();
         // Create total data
-
-
+        TotalHeader totalHeader = new TotalHeader(database.getAllIncome(), database.getAllExpense());
+        items.add(totalHeader);
         // Group money entry with header
+        if (database.getAllTransactions().size()!=0) {
+            ArrayList<MoneyEntry> moneyEntries = (ArrayList<MoneyEntry>) database.getAllTransactions();
+            ArrayList<Long> date = new ArrayList<>();
+            for (MoneyEntry moneyEntry : moneyEntries) {
+                date.add(moneyEntry.getTime());
+                Toast mess = Toast.makeText(getContext(), String.valueOf(moneyEntry.getTime()), Toast.LENGTH_SHORT);
+                mess.show();
+            }
+            DateHeader dateHeader1 = new DateHeader(date.get(0));
+            items.add(dateHeader1);
+            MoneyData moneyData1 = new MoneyData(moneyEntries.get(0));
+            items.add(moneyData1);
 
+            for (int i = 1; i < date.size(); i++) {
+                if (Utils.differentDate(date.get(i - 1), date.get(i))) {
+                    DateHeader dateHeader = new DateHeader(date.get(i));
+                    items.add(dateHeader);
+                    MoneyData moneyData = new MoneyData(moneyEntries.get(i));
+                    items.add(moneyData);
+                } else {
+                    MoneyData moneyData = new MoneyData(moneyEntries.get(i));
+                    items.add(moneyData);
+                }
+            }
+        }
         // Today
 
 
