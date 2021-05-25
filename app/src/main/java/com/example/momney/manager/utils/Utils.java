@@ -40,7 +40,7 @@ public class Utils {
         Calendar date1 = Calendar.getInstance();
         date1.setTimeInMillis(a);
         Calendar date2 = Calendar.getInstance();
-        date1.setTimeInMillis(b);
+        date2.setTimeInMillis(b);
         boolean t = date1.get(Calendar.DAY_OF_YEAR) != date2.get(Calendar.DAY_OF_YEAR);
         return t;
     }
