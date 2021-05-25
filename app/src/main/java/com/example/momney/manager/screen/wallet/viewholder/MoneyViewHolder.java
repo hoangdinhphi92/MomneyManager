@@ -55,10 +55,10 @@ public class MoneyViewHolder extends RecyclerView.ViewHolder {
         description.setText(entry.getDescription());
         int amount = moneyData.getMoneyEntry().getAmount();
         if (amount > 0) {
-            amountSpent.setText(String.format("+%sVND", amount));
+            amountSpent.setText(String.format("%s", Utils.amountToString(amount, "VND")));
             amountSpent.setTextColor(itemView.getContext().getResources().getColor(R.color.income));
         } else {
-            amountSpent.setText(String.format("%sVND", amount));
+            amountSpent.setText(String.format("%s", Utils.amountToString(amount, "VND")));
             amountSpent.setTextColor(itemView.getContext().getResources().getColor(R.color.expense));
         }
 

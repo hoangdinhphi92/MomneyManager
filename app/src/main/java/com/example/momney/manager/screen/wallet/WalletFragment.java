@@ -36,6 +36,7 @@ import com.example.momney.manager.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class WalletFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -62,6 +63,9 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
         initRecycleView(view);
         initSpinner(view);
         database = new MoneyDatabaseImpl(getContext());
+        /*for (int index = 0; index < 100; index ++) {
+            addTest();
+        }*/
         updateData();
     }
 
@@ -122,6 +126,18 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
 
 
         adapter.submitList(items);
+    }
+
+    private void addTest() {
+        Random random = new Random();
+        int contentId = random.nextInt(15);
+        String content = Utils.getContentFromId(contentId);
+
+        int amount = (10 + random.nextInt(900)) * 1000;
+        long time = System.currentTimeMillis() - (random.nextInt(30) * 24L * 60L * 60L * 1000L);
+
+        MoneyEntry entry = new MoneyEntry(amount, time, content, content);
+        database.insert(entry);
     }
 
     @Override

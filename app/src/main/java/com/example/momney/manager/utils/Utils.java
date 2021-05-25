@@ -2,8 +2,10 @@ package com.example.momney.manager.utils;
 
 import com.example.momney.manager.R;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -33,10 +35,11 @@ public class Utils {
         if (day == today && month == thisMonth && year == thisYear) return "Today";
         else if (day == today - 1 && month == thisMonth && year == thisYear) return "Yesterday";
         else {
-            return day + "/" + month + "/" + year;}
+            return day + "/" + month + "/" + year;
+        }
     }
 
-    public static boolean differentDate(long a, long b){
+    public static boolean differentDate(long a, long b) {
         Calendar date1 = Calendar.getInstance();
         date1.setTimeInMillis(a);
         Calendar date2 = Calendar.getInstance();
@@ -118,5 +121,48 @@ public class Utils {
             default:
                 return 0;
         }
+    }
+
+    public static String getContentFromId(int id) {
+        switch (id) {
+            case 1:
+                return "Eating";
+            case 2:
+                return "Travel";
+            case 3:
+                return "Sport";
+            case 4:
+                return "House rent";
+            case 5:
+                return "Bill";
+            case 6:
+                return "Health";
+            case 7:
+                return "Education";
+            case 8:
+                return "Game";
+            case 9:
+                return "Online Services";
+            case 10:
+                return "Salary";
+            case 11:
+                return "Houseware";
+            case 12:
+                return "Transfers";
+            case 13:
+                return "Pet";
+            case 14:
+                return "Vehicle";
+            default:
+                return "Others";
+        }
+    }
+
+    public static String amountToString(int amount, String money) {
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        format.setMaximumFractionDigits(0);
+        format.setCurrency(Currency.getInstance(money));
+
+        return format.format(amount);
     }
 }
