@@ -32,7 +32,8 @@ public class Utils {
 
         if (day == today && month == thisMonth && year == thisYear) return "Today";
         else if (day == today - 1 && month == thisMonth && year == thisYear) return "Yesterday";
-        else return date + "/" + month + "/" + year;
+        else {
+            return day + "/" + month + "/" + year;}
     }
 
     public static boolean differentDate(long a, long b){
@@ -40,7 +41,8 @@ public class Utils {
         date1.setTimeInMillis(a);
         Calendar date2 = Calendar.getInstance();
         date1.setTimeInMillis(b);
-        return date1.get(Calendar.DAY_OF_YEAR) != date2.get(Calendar.DAY_OF_YEAR);
+        boolean t = date1.get(Calendar.DAY_OF_YEAR) != date2.get(Calendar.DAY_OF_YEAR);
+        return t;
     }
 
     public static String millisecondToDateInWeek(long ms) {

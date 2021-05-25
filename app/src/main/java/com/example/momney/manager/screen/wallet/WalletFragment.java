@@ -98,9 +98,9 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
             ArrayList<Long> date = new ArrayList<>();
             for (MoneyEntry moneyEntry : moneyEntries) {
                 date.add(moneyEntry.getTime());
-                Toast mess = Toast.makeText(getContext(), String.valueOf(moneyEntry.getTime()), Toast.LENGTH_SHORT);
-                mess.show();
             }
+
+
             DateHeader dateHeader1 = new DateHeader(date.get(0));
             items.add(dateHeader1);
             MoneyData moneyData1 = new MoneyData(moneyEntries.get(0));

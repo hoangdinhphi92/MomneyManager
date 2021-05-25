@@ -92,7 +92,8 @@ public class TransactionActivity extends AppCompatActivity {
         }
         Bundle state = intent.getBundleExtra("state");
         if(state != null) {
-            mDate.setText(state.getString("date"));
+            dateChose = state.getLong("date");
+            mDate.setText(getDateString(dateChose));
             if (state.getBoolean("expense")) {
                 choseInc = -1;
                 mView.setBackground(ContextCompat.getDrawable(this, R.drawable.expense_background));
@@ -108,12 +109,9 @@ public class TransactionActivity extends AppCompatActivity {
         Calendar thisDate = Calendar.getInstance();
         thisDate.setTimeInMillis(date);
         Calendar calendar = Calendar.getInstance();
-//        long curDate = calendar.getTimeInMillis();
-//        Calendar yesterday = Calendar.getInstance();
-//        yesterday.roll(Calendar.DATE, -1);
-//        long lastDate = yesterday.getTimeInMillis();
         SimpleDateFormat format;
-        if(thisDate.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR)) {format = new SimpleDateFormat("MMM d, yyyy", Locale.US);
+        if(thisDate.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR))
+        {format = new SimpleDateFormat("MMM d, yyyy", Locale.US);
         return "Today, " + format.format(date);}
         else  if(thisDate.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR)-1) {
             format = new SimpleDateFormat("MMM d, yyyy", Locale.US);
@@ -177,7 +175,7 @@ public class TransactionActivity extends AppCompatActivity {
         if(choseInc != 1) {
             outState.putBoolean("expense", true);
         }
-        outState.putString("date", mDate.getText().toString());
+        outState.putLong("date", dateChose);
         outState.putString("amount", mAmount.getText().toString());
         outState.putString("note", mNote.getText().toString());
         Intent intent = new Intent(TransactionActivity.this, ContentActivity.class);
