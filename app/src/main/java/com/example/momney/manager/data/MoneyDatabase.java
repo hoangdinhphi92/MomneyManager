@@ -10,6 +10,8 @@ public interface MoneyDatabase {
 
     int getAllExpense();
 
+    int total(long date, int filter);
+
     void deleteTable();
 
     void insert(MoneyEntry money);

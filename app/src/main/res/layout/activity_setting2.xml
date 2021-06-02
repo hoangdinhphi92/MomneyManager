@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SettingActivity">
 
     <TextView
@@ -39,9 +39,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/back"
-        tools:ignore="VectorDrawableCompat"
         android:onClick="Return"
-        android:contentDescription="@string/back" />
+        android:contentDescription="@string/back"
+        tools:ignore="VectorDrawableCompat" />
 
     <View
         android:id="@+id/view"
@@ -114,12 +114,12 @@
         app:layout_constraintTop_toTopOf="@+id/year_button" />
 
     <TextView
-        android:id="@+id/curency"
+        android:id="@+id/currency"
         android:layout_width="60sp"
         android:layout_height="35sp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/curency"
+        android:background="@drawable/currency"
         android:gravity="center"
         android:text="@string/vnd"
         android:textColor="@color/white"
@@ -143,7 +143,7 @@
         android:inputType="number"
         android:textColor="@color/white"
         android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/curency"
+        app:layout_constraintEnd_toStartOf="@+id/currency"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/divider"
         tools:ignore="LabelFor,RtlHardcoded"
@@ -215,13 +215,13 @@
         android:text="@string/language"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/language_icon"
-        app:layout_constraintEnd_toStartOf="@+id/cur_languege"
+        app:layout_constraintEnd_toStartOf="@+id/cur_language"
         app:layout_constraintStart_toEndOf="@+id/language_icon"
         app:layout_constraintTop_toTopOf="@+id/language_icon"
         android:onClick="ChoseLanguage"/>
 
     <TextView
-        android:id="@+id/cur_languege"
+        android:id="@+id/cur_language"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -236,5 +236,7 @@
         app:layout_constraintTop_toTopOf="@+id/pick"
         tools:ignore="RtlHardcoded"
         android:onClick="ChoseLanguage"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

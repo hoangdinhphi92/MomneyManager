@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.momney.manager.R;
 import com.example.momney.manager.screen.wallet.data.TotalHeader;
+import com.example.momney.manager.utils.Utils;
 
 public class TotalHeaderViewHolder extends RecyclerView.ViewHolder {
     private final TextView totalIncome;
@@ -23,8 +24,8 @@ public class TotalHeaderViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void build(TotalHeader totalHeader) {
-        totalIncome.setText( String.format("%sVND",totalHeader.getIncome()));
-        totalExpense.setText( String.format("%sVND",totalHeader.getExpense()));
+        totalIncome.setText( String.format("%s", Utils.amountToString((int) totalHeader.getIncome(), "VND")));
+        totalExpense.setText( String.format("%s",Utils.amountToString((int) totalHeader.getExpense(), "VND")));
     }
 
     public static TotalHeaderViewHolder create(ViewGroup parent) {

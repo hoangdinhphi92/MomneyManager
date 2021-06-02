@@ -6,10 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
+import com.example.momney.manager.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import static com.example.momney.manager.screen.wallet.WalletFragment.FILTER_ALL;
+import static com.example.momney.manager.screen.wallet.WalletFragment.FILTER_MONTH;
+import static com.example.momney.manager.screen.wallet.WalletFragment.FILTER_WEEK;
 
 
 public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase {
@@ -63,6 +68,32 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
         int expense= cursor.getInt(0);
         cursor.close();
         return expense*-1;
+    }
+
+    @Override
+    public int total(long date, int filter) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+ " ORDER BY (" + COLUMN_TIME + ") DESC", null);
+        int total=0;
+        switch (filter){
+            case FILTER_ALL:
+                while (moneyDB.moveToNext())
+                    if( Utils.getDayOfYear(date)==Utils.getDayOfYear(moneyDB.getLong(2)) &&
+                            Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+            case FILTER_MONTH:
+                while (moneyDB.moveToNext())
+                    if( Utils.getMonth(date)==Utils.getMonth(moneyDB.getLong(2)) &&
+                            Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+            case FILTER_WEEK:
+                while (moneyDB.moveToNext())
+                    if( Utils.getWeak(date)==Utils.getWeak(moneyDB.getLong(2))&&
+                            Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+        }
+        moneyDB.close();
+        return total;
     }
 
     @Override
