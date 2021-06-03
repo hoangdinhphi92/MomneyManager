@@ -1,6 +1,10 @@
 package com.example.momney.manager.screen.wallet;
 
+import android.view.ContextMenu;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +27,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public final static int MONEY_ITEM_TYPE = 3;
 
     private final ArrayList<TransactionData> items = new ArrayList<>();
+
 
     public void submitList(List<TransactionData> items) {
         this.items.clear();
@@ -67,6 +72,14 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ((DateViewHolder) holder).build((DateHeader) data);
         } else if (holder instanceof MoneyViewHolder) {
             ((MoneyViewHolder) holder).build((MoneyData) data);
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(v.getContext(), "Longggg", Toast.LENGTH_SHORT).show();
+
+                    return true;
+                }
+            });
         }
     }
 
@@ -74,4 +87,5 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public int getItemCount() {
         return items.size();
     }
+
 }

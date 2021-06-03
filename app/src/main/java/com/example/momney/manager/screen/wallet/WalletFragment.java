@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import com.example.momney.manager.screen.wallet.data.DateHeader;
 import com.example.momney.manager.screen.wallet.data.MoneyData;
 import com.example.momney.manager.screen.wallet.data.TotalHeader;
 import com.example.momney.manager.screen.wallet.data.TransactionData;
+import com.example.momney.manager.screen.wallet.viewholder.MoneyViewHolder;
 import com.example.momney.manager.utils.Utils;
 
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
     private RecyclerView recyclerView;
     private TransactionAdapter adapter;
     private int filterType = FILTER_ALL;
+    ArrayList<TransactionData> items ;
 
     @Nullable
     @Override
@@ -52,10 +55,36 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
         initRecycleView(view);
         initSpinner(view);
         database = new MoneyDatabaseImpl(getContext());
-        /*for (int index = 0; index < 100; index ++) {
+        database.deleteTable();
+        for (int index = 0; index < 100; index ++) {
             addTest();
-        }*/
+        }
         updateData();
+
+        ItemTouchHelper helper = new ItemTouchHelper(new
+                                                             ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT |ItemTouchHelper.LEFT) {
+                                                                 @Override
+                                                                 public boolean onMove(RecyclerView recyclerView,
+                                                                                       RecyclerView.ViewHolder viewHolder,
+                                                                                       RecyclerView.ViewHolder target) {
+                                                                     return false;
+                                                                 }
+
+                                                                 @Override
+                                                                 public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                                                                      int direction) {
+                                                                     if(viewHolder instanceof MoneyViewHolder) {
+                                                                         database.delete(((MoneyData) items.get(viewHolder.getAdapterPosition())).getMoneyEntry());
+                                                                         items.remove(viewHolder.getAdapterPosition());
+                                                                         adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                                                                         updateData();
+                                                                     }
+
+                                                                 }
+
+                                                             });
+        helper.attachToRecyclerView(recyclerView);
+
     }
 
     private void initRecycleView(View view) {
@@ -81,18 +110,19 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
     }
 
     private void updateData() {
-        ArrayList<TransactionData> items = new ArrayList<>();
+
+        items = new ArrayList<>();
+
         // Create total data
         TotalHeader totalHeader = new TotalHeader(database.getAllIncome(), database.getAllExpense());
         items.add(totalHeader);
         // Group money entry with header
         if (database.getAllTransactions().size()!=0) {
-            ArrayList<MoneyEntry> moneyEntries = (ArrayList<MoneyEntry>) database.getAllTransactions();
             ArrayList<Long> date = new ArrayList<>();
+            ArrayList<MoneyEntry> moneyEntries = (ArrayList<MoneyEntry>) database.getAllTransactions();
             for (MoneyEntry moneyEntry : moneyEntries) {
                 date.add(moneyEntry.getTime());
             }
-
 
             DateHeader dateHeader1 = new DateHeader(date.get(0), database.total(date.get(0), filterType ), filterType);
             items.add(dateHeader1);
@@ -139,4 +169,6 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
 }

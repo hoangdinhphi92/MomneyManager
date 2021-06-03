@@ -130,8 +130,8 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
 
     @Override
     public void delete(MoneyEntry money) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE id = " + money.getId());
+        SQLiteDatabase db = getReadableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=" + String.valueOf(money.getId()));
     }
 
     @Override
