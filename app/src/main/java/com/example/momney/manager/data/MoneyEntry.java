@@ -8,6 +8,7 @@ public class MoneyEntry {
     private String description;
 
     public MoneyEntry(int id, int amount, long time,String content, String description) {
+        this.id = id;
         this.amount = amount;
         this.content = content;
         this.time = time;

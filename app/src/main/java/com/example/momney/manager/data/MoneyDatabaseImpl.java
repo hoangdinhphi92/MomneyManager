@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.momney.manager.utils.Utils;
 
@@ -41,8 +42,19 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
         Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+ " ORDER BY (" + COLUMN_TIME + ") DESC", null);
         List<MoneyEntry> moneyEntries = new ArrayList<MoneyEntry>();
         while (moneyDB.moveToNext()){
-            MoneyEntry moneyEntry = new MoneyEntry(moneyDB.getInt(0),moneyDB.getInt(1),
-                    moneyDB.getLong(2), moneyDB.getString(3), moneyDB.getString(4));
+            int columnId = moneyDB.getColumnIndex(COLUMN_ID);
+            int columnAmount = moneyDB.getColumnIndex(COLUMN_AMOUNT);
+            int columnTime = moneyDB.getColumnIndex(COLUMN_TIME);
+            int columnContent = moneyDB.getColumnIndex(COLUMN_CONTENT);
+            int columnDes = moneyDB.getColumnIndex(COLUMN_DESCRIPTION);
+
+            MoneyEntry moneyEntry = new MoneyEntry(
+                    moneyDB.getInt(columnId),
+                    moneyDB.getInt(columnAmount),
+                    moneyDB.getLong(columnTime),
+                    moneyDB.getString(columnContent),
+                    moneyDB.getString(columnDes)
+            );
             moneyEntries.add(moneyEntry);
 
         }
@@ -131,7 +143,7 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
     @Override
     public void delete(MoneyEntry money) {
         SQLiteDatabase db = getReadableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=" + String.valueOf(money.getId()));
+        db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{String.valueOf(money.getId())});
     }
 
     @Override

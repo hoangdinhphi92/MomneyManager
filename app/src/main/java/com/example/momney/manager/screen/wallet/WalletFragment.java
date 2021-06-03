@@ -40,7 +40,7 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
     private RecyclerView recyclerView;
     private TransactionAdapter adapter;
     private int filterType = FILTER_ALL;
-    ArrayList<TransactionData> items ;
+    ArrayList<TransactionData> items;
 
     @Nullable
     @Override
@@ -56,33 +56,35 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
         initSpinner(view);
         database = new MoneyDatabaseImpl(getContext());
         database.deleteTable();
-        for (int index = 0; index < 100; index ++) {
+        for (int index = 0; index < 100; index++) {
             addTest();
         }
         updateData();
 
-        ItemTouchHelper helper = new ItemTouchHelper(new
-                                                             ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT |ItemTouchHelper.LEFT) {
-                                                                 @Override
-                                                                 public boolean onMove(RecyclerView recyclerView,
-                                                                                       RecyclerView.ViewHolder viewHolder,
-                                                                                       RecyclerView.ViewHolder target) {
-                                                                     return false;
-                                                                 }
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView,
+                                  RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
+                return false;
+            }
 
-                                                                 @Override
-                                                                 public void onSwiped(RecyclerView.ViewHolder viewHolder,
-                                                                                      int direction) {
-                                                                     if(viewHolder instanceof MoneyViewHolder) {
-                                                                         database.delete(((MoneyData) items.get(viewHolder.getAdapterPosition())).getMoneyEntry());
-                                                                         items.remove(viewHolder.getAdapterPosition());
-                                                                         adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                                                                         updateData();
-                                                                     }
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                 int direction) {
+                if (viewHolder instanceof MoneyViewHolder) {
+                    MoneyData moneyData = ((MoneyViewHolder) viewHolder).getMoneyData();
 
-                                                                 }
+                    database.delete(moneyData.getMoneyEntry());
+                    items.remove(moneyData);
 
-                                                             });
+                    adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                    ///updateData();
+                }
+
+            }
+
+        });
         helper.attachToRecyclerView(recyclerView);
 
     }
@@ -117,21 +119,21 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
         TotalHeader totalHeader = new TotalHeader(database.getAllIncome(), database.getAllExpense());
         items.add(totalHeader);
         // Group money entry with header
-        if (database.getAllTransactions().size()!=0) {
+        if (database.getAllTransactions().size() != 0) {
             ArrayList<Long> date = new ArrayList<>();
             ArrayList<MoneyEntry> moneyEntries = (ArrayList<MoneyEntry>) database.getAllTransactions();
             for (MoneyEntry moneyEntry : moneyEntries) {
                 date.add(moneyEntry.getTime());
             }
 
-            DateHeader dateHeader1 = new DateHeader(date.get(0), database.total(date.get(0), filterType ), filterType);
+            DateHeader dateHeader1 = new DateHeader(date.get(0), database.total(date.get(0), filterType), filterType);
             items.add(dateHeader1);
             MoneyData moneyData1 = new MoneyData(moneyEntries.get(0));
             items.add(moneyData1);
 
             for (int i = 1; i < date.size(); i++) {
                 if (Utils.differentTime(date.get(i - 1), date.get(i), filterType)) {
-                    DateHeader dateHeader = new DateHeader(date.get(i), database.total(date.get(i), filterType ), filterType);
+                    DateHeader dateHeader = new DateHeader(date.get(i), database.total(date.get(i), filterType), filterType);
                     items.add(dateHeader);
                     MoneyData moneyData = new MoneyData(moneyEntries.get(i));
                     items.add(moneyData);

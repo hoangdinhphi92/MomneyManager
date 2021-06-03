@@ -1,6 +1,7 @@
 package com.example.momney.manager.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -191,8 +192,12 @@ public class TransactionActivity extends AppCompatActivity {
             int i = Integer.parseInt(mAmount.getText().toString());
             MoneyDatabase db = new MoneyDatabaseImpl(this);
             MoneyEntry money = new MoneyEntry(i*choseInc, dateChose, mContent.getText().toString(), mNote.getText().toString());
-            db.insert(money);
-            startActivity(intent);
+            /*db.insert(money);
+            startActivity(intent);*/
+            Intent intent = new Intent();
+            intent.putCharSequenceArrayListExtra("data", money);
+            setResult(Activity.RESULT_OK, intent);
+            finish();
 //            Bundle bundle = new Bundle();
 //            bundle.putInt("new_amount", i * choseInc);
 //            bundle.putInt("new_date", dateChose);

@@ -33,6 +33,8 @@ public class MoneyViewHolder extends RecyclerView.ViewHolder {
     private final TextView amountSpent;
     private final ImageView transIcon;
 
+    private MoneyData moneyData;
+
     public MoneyViewHolder(@NonNull @NotNull View itemView) {
         super(itemView);
         numDate = itemView.findViewById(R.id.num_date);
@@ -43,7 +45,13 @@ public class MoneyViewHolder extends RecyclerView.ViewHolder {
         transIcon = itemView.findViewById(R.id.trans_icon);
     }
 
+    public MoneyData getMoneyData() {
+        return moneyData;
+    }
+
     public void build(MoneyData moneyData) {
+        this.moneyData = moneyData;
+
         MoneyEntry entry = moneyData.getMoneyEntry();
 
         Calendar calendar = Calendar.getInstance();
