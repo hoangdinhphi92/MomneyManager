@@ -7,9 +7,12 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
+import android.widget.TextView;
 
 import com.example.momney.manager.R;
 import com.example.momney.manager.data.MoneyDatabase;
+import com.example.momney.manager.data.MoneyDatabaseImpl;
+import com.example.momney.manager.data.MoneyEntry;
 import com.github.mikephil.charting.data.Entry;
 
 import java.text.DecimalFormat;
@@ -28,6 +31,9 @@ import static com.example.momney.manager.screen.wallet.WalletFragment.FILTER_MON
 import static com.example.momney.manager.screen.wallet.WalletFragment.FILTER_WEEK;
 import static java.util.Calendar.APRIL;
 import static java.util.Calendar.AUGUST;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.DAY_OF_WEEK;
+import static java.util.Calendar.DAY_OF_YEAR;
 import static java.util.Calendar.DECEMBER;
 import static java.util.Calendar.FEBRUARY;
 import static java.util.Calendar.FRIDAY;
@@ -37,6 +43,7 @@ import static java.util.Calendar.JUNE;
 import static java.util.Calendar.MARCH;
 import static java.util.Calendar.MAY;
 import static java.util.Calendar.MONDAY;
+import static java.util.Calendar.MONTH;
 import static java.util.Calendar.NOVEMBER;
 import static java.util.Calendar.OCTOBER;
 import static java.util.Calendar.SATURDAY;
@@ -45,6 +52,9 @@ import static java.util.Calendar.SUNDAY;
 import static java.util.Calendar.THURSDAY;
 import static java.util.Calendar.TUESDAY;
 import static java.util.Calendar.WEDNESDAY;
+import static java.util.Calendar.WEEK_OF_MONTH;
+import static java.util.Calendar.WEEK_OF_YEAR;
+import static java.util.Calendar.YEAR;
 
 public class Utils {
 
@@ -54,10 +64,18 @@ public class Utils {
     public static String curLanguage = Locale.getDefault().getLanguage();
     public static final String[] currency = {"USD","VND","CNY","JPY"};
     public static String mCurrency = currency[1];
+    public static int weekUse=0, monthUse=0, yearUse=0;
 
     public static final String LANGUAGE_KEY = "language";
-    // Key for current color
     public static final String CURRENCY_KEY = "currency";
+
+    public static final String WEEK_SET_KEY = "week";
+    public static final String MONTH_SET_KEY = "month";
+    public static final String YEAR_SET_KEY = "year";
+    public static final String WEEK_CHANGE_KEY = "weekS";
+    public static final String MONTH_CHANGE_KEY = "monthS";
+    public static final String YEAR_CHANGE_KEY = "yearS";
+    public static int weekChanged=1, monthChanged = JANUARY, yearChanged=1970;
 
     public static SharedPreferences mPreferences;
     public static String sharedPrefFile =
@@ -498,6 +516,36 @@ public class Utils {
         curLanguage = mPreferences.getString(LANGUAGE_KEY, "vi");
         setLocale(curLanguage, context);
         mCurrency = mPreferences.getString(CURRENCY_KEY, "VND") ;
+        weekUse = mPreferences.getInt(WEEK_SET_KEY, 0);
+        monthUse = mPreferences.getInt(MONTH_SET_KEY, 0);
+        yearUse = mPreferences.getInt(YEAR_SET_KEY, 0);
+        weekChanged = mPreferences.getInt(WEEK_CHANGE_KEY, 1);
+        monthChanged = mPreferences.getInt(MONTH_CHANGE_KEY, 0);
+        yearChanged = mPreferences.getInt(YEAR_CHANGE_KEY, 1970);
+    }
+
+    public static void restore() {
+        Calendar calendar = Calendar.getInstance();
+
+        if(calendar.get(WEEK_OF_YEAR ) != weekChanged){
+            weekUse = 0;
+        }
+        if(calendar.get(MONTH ) != monthChanged){
+            monthUse = 0;
+        }
+        if(calendar.get(YEAR ) != yearChanged){
+            yearUse = 0;
+        }
+
+        SharedPreferences.Editor preferencesEditor = Utils.mPreferences.edit();
+        preferencesEditor.putInt(Utils.WEEK_SET_KEY, Utils.weekUse);
+        preferencesEditor.putInt(Utils.MONTH_SET_KEY, Utils.monthUse);
+        preferencesEditor.putInt(Utils.YEAR_SET_KEY, Utils.yearUse);
+        preferencesEditor.putInt(Utils.WEEK_CHANGE_KEY, Utils.weekChanged);
+        preferencesEditor.putInt(Utils.MONTH_CHANGE_KEY, Utils.monthChanged);
+        preferencesEditor.putInt(Utils.YEAR_CHANGE_KEY, Utils.yearChanged);
+        preferencesEditor.apply();
+
     }
 
     public static long getYearInMillis(int year){
@@ -629,5 +677,85 @@ public class Utils {
         else calendar.add(Calendar.DATE, 1 - dayOW);
         return calendar.getTimeInMillis();
 
+    }
+
+
+    public static int checkPossible(MoneyDatabase db, long date, int amount){
+        Calendar calendar = Calendar.getInstance();
+        long today = calendar.getTimeInMillis();
+        if (getWeek(date)==getWeek(today) && getYear(date) == getYear(today)){
+            if(db.totalUse(today, FILTER_WEEK) - db.totalIncome(today, FILTER_WEEK) + amount > weekUse)
+                return 1;
+        }
+        if (getMonth(date)==getMonth(today) && getYear(date) == getYear(today)){
+            if(db.totalUse(today, FILTER_MONTH) - db.totalIncome(today, FILTER_MONTH) + amount > monthUse)
+                return 2;
+        }
+        if (getYear(date)==getYear(today)){
+            if(db.totalUse(today, FILTER_ALL) - db.totalIncome(today, FILTER_ALL) + amount > yearUse)
+                return 3;
+        }
+        return 0;
+    }
+
+    public static void getLimitText(TextView limit, int filter, MoneyDatabase db){
+        Calendar calendar = Calendar.getInstance();
+        long today = calendar.getTimeInMillis();
+        switch (filter){
+            case FILTER_ALL:
+                if(db.totalUse(today, filter) - db.totalIncome(today, filter) > yearUse) {
+                    limit.setText(String.format("%s", limit.getContext().getString(R.string.this_year_limit) + amountToString(yearUse)+"!!!"));
+                    limit.setTextColor(limit.getContext().getResources().getColor(R.color.expense));
+                }
+                else {
+                    limit.setText(String.format("%s", limit.getContext().getString(R.string.this_year_limit) + amountToString(yearUse)));
+                    limit.setTextColor(limit.getContext().getResources().getColor(R.color.income));
+                }
+                break;
+            case FILTER_MONTH:
+
+                if(db.totalUse(today, filter) - db.totalIncome(today, filter) > monthUse) {
+                    limit.setText(String.format("%s", limit.getContext().getString(R.string.this_month_limit) + amountToString(monthUse)+"!!!"));
+                    limit.setTextColor(limit.getContext().getResources().getColor(R.color.expense));
+                }
+                else {
+                    limit.setText(String.format("%s", limit.getContext().getString(R.string.this_month_limit) + amountToString(monthUse)));
+                    limit.setTextColor(limit.getContext().getResources().getColor(R.color.income));
+                }
+                break;
+            case FILTER_WEEK:
+                limit.setText(String.format("%s", limit.getContext().getString(R.string.this_week_limit) + amountToString(weekUse)));
+                if(db.totalUse(today, filter) - db.totalIncome(today, filter) > weekUse) {
+                    limit.setText(String.format("%s", limit.getContext().getString(R.string.this_week_limit) + amountToString(weekUse) +"!!!"));
+                    limit.setTextColor(limit.getContext().getResources().getColor(R.color.expense));
+                }
+                else {
+                    limit.setText(String.format("%s", limit.getContext().getString(R.string.this_week_limit) + amountToString(weekUse)));
+                    limit.setTextColor(limit.getContext().getResources().getColor(R.color.income));
+                }
+                break;
+
+        }
+    }
+
+    public static boolean limitOver(int filter, Context context) {
+        Calendar calendar = Calendar.getInstance();
+        long today = calendar.getTimeInMillis();
+        MoneyDatabase db = new MoneyDatabaseImpl(context);
+        switch (filter) {
+            case FILTER_ALL:
+                if (db.totalUse(today, filter) - db.totalIncome(today, filter) > yearUse)
+                    return true;
+                break;
+            case FILTER_MONTH:
+                if (db.totalUse(today, filter) - db.totalIncome(today, filter) > monthUse)
+                    return true;
+                break;
+            case FILTER_WEEK:
+                if (db.totalUse(today, filter) - db.totalIncome(today, filter) > weekUse)
+                    return true;
+                break;
+        }
+        return false;
     }
 }

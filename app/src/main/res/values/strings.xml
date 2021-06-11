@@ -15,7 +15,6 @@
         <item>Week</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="chose_date">Chose Date</string>
     <string name="vnd" translatable="false">VND</string>
     <string name="week">Week</string>
@@ -76,10 +75,30 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="this_week">This week</string>
-    <string name="week_alert">\"Set this week\'s spending to \"</string>
-    <string name="month_alert">\"Set this month\'s spending to \"</string>
-    <string name="year_alert">\"Set this year\'s spending to \"</string>
+    <string name="week_alert">Set this week\'s spending to </string>
+    <string name="month_alert">"Set this month's spending to "</string>
+    <string name="year_alert">Set this year\'s spending to </string>
     <string name="this_year">This year</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_alert">Edit this transaction?</string>
+    <string name="delete_alert">Are you sure want to delete this transaction?</string>
+    <string name="chose_week">Chose week</string>
+    <string name="select_year">Select Year</string>
+    <string name="select_month">Select Month</string>
+    <string name="expense_center">Spending by Category</string>
+    <string name="income_center">Income by Category</string>
+    <string name="cancel_title">Please submit again!</string>
+    <string name="cancel_description">This value is less than the amount used</string>
+    <string name="later">Later</string>
+    <string name="notifi">Notification</string>
+    <string name="notify_desc">You haven\'t set up your spending or limit amount exceeded.\n Change limit amount?</string>
+    <string name="warning">Warning!</string>
+    <string name="warning_description">The amount exceeds the set limit. Still continue to add?</string>
+    <string name="this_week_limit">"This week limit: "</string>
+    <string name="this_month_limit">"This month limit: "</string>
+    <string name="this_year_limit">"This year limit: "</string>
+    <string name="limit_over">Limit amount exceeded!</string>
+    <string name="limit_not_set">Haven\'t set</string>
     <string-array name="content">
         <item>Eating</item>
         <item>Travel</item>

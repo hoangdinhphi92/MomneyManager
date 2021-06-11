@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +34,10 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Random;
 
+import dev.shreyaspatil.MaterialDialog.AbstractDialog;
+import dev.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
+
 public class WalletFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     public final static int FILTER_WEEK = 2;
@@ -40,7 +45,7 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
     public final static int FILTER_ALL = 0;
 
     private MoneyDatabase database;
-
+    TextView limit;
     private RecyclerView recyclerView;
     private TransactionAdapter adapter;
     private int filterType = FILTER_ALL;
@@ -56,11 +61,12 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
     @Override
     public void onViewCreated(@NonNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        limit = view.findViewById(R.id.limit);
         initRecycleView(view);
         initSpinner(view);
 
         database = new MoneyDatabaseImpl(getContext());
-
+        Utils.getLimitText(limit, filterType, database);
         updateData();
 
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
@@ -79,19 +85,68 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
                 if (viewHolder instanceof MoneyViewHolder) {
                     MoneyData moneyData = ((MoneyViewHolder) viewHolder).getMoneyData();
 
+                    BottomSheetMaterialDialog mBottomSheetDialog;
                     if(direction==4){
-                        database.delete(moneyData.getMoneyEntry());
-                        items.remove(moneyData);
+                        mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(getActivity())
+                                .setTitle(getString(R.string.delete) + "?")
+                                .setMessage(getString(R.string.delete_alert))
+                                .setCancelable(false)
+                                .setAnimation(R.raw.delete_loader)
+                                .setPositiveButton(getString(R.string.delete), R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int which) {
+                                        database.delete(moneyData.getMoneyEntry());
+                                        items.remove(moneyData);
+                                        dialogInterface.dismiss();
+                                        adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                                        updateData();
+                                        if (!(Utils.weekUse == 0 || Utils.monthUse == 0 || Utils.yearUse == 0 ||
+                                                Utils.limitOver(0, getContext()) || Utils.limitOver(1, getContext()) ||
+                                                Utils.limitOver(2, getContext()))){
+                                            MainActivity.alert.setVisibility(View.INVISIBLE);
+                                            limit.setTextColor(getContext().getColor(R.color.income));
+                                        }
 
-                        adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                                    }
+                                })
+                                .setNegativeButton(getString(R.string.cancel), R.drawable.ic_cancel, new BottomSheetMaterialDialog.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int which) {
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .build();
+
+                        // Show Dialog
                     }
                     else {
-                        Intent intent = new Intent(getActivity(), TransactionActivity.class);
-                        Gson gson = new Gson();
-                        String myJson = gson.toJson(moneyData);
-                        intent.putExtra("myJson", myJson);
-                        startActivity(intent);
+                        mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(getActivity())
+                                .setTitle(getString(R.string.edit) + "?")
+                                .setMessage(getString(R.string.edit_alert))
+                                .setCancelable(false)
+                                .setAnimation(R.raw.edit_anim)
+                                .setPositiveButton(getString(R.string.edit), R.drawable.ic_edit, new BottomSheetMaterialDialog.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int which) {
+                                        Intent intent = new Intent(getActivity(), TransactionActivity.class);
+                                        Gson gson = new Gson();
+                                        String myJson = gson.toJson(moneyData);
+                                        intent.putExtra("myJson", myJson);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton(getString(R.string.cancel), R.drawable.ic_cancel, new BottomSheetMaterialDialog.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int which) {
+                                        dialogInterface.dismiss();
+                                    }
+                                })
+                                .build();
+
+                        // Show Dialog
+
                     }
+                    mBottomSheetDialog.show();
                     updateData();
                 }
 
@@ -176,6 +231,7 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         filterType = position;
+        Utils.getLimitText(limit, filterType, database);
         updateData();
     }
 

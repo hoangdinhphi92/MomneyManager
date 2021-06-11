@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import com.example.momney.manager.R;
-import com.example.momney.manager.SettingActivity;
-import com.example.momney.manager.activities.MainActivity;
 import com.example.momney.manager.utils.Utils;
 
 public class CurrencyActivity extends AppCompatActivity {

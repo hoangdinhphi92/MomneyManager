@@ -84,4 +84,16 @@
     <string name="today">Hôm nay</string>
     <string name="yesterday">Hôm qua</string>
     <string name="this_week">Tuần này</string>
+    <string name="week_alert">"Mức sử dụng tuần này là: "</string>
+    <string name="month_alert">"Mức sử dụng tháng này là: "</string>
+    <string name="year_alert">"Mức sử dụng năm nay là: "</string>
+    <string name="this_year">Năm nay</string>
+    <string name="cancel">Hủy</string>
+    <string name="edit_alert">Sửa giao dịch này?</string>
+    <string name="delete_alert">Bạn có muốn xóa giao dịch?</string>
+    <string name="chose_week">Chọn tuần</string>
+    <string name="select_year">Chọn năm</string>
+    <string name="select_month">Chọn tháng</string>
+    <string name="expense_center">Sử dụng theo danh mục</string>
+    <string name="income_center">Khoản thu theo danh mục</string>
 </resources>

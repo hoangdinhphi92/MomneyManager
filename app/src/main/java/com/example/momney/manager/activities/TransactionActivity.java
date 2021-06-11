@@ -31,6 +31,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import dev.shreyaspatil.MaterialDialog.AbstractDialog;
+import dev.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
+
 public class TransactionActivity extends AppCompatActivity implements Serializable {
 
     private int choseInc = 1;
@@ -229,22 +233,53 @@ public class TransactionActivity extends AppCompatActivity implements Serializab
 
     public void Submit(View view) {
         Intent intent = new Intent(this, MainActivity.class);
-        int i = Integer.parseInt(mAmount.getText().toString());
+        float i =  Float.parseFloat(mAmount.getText().toString());
         MoneyDatabase db = new MoneyDatabaseImpl(this);
 
         if(edit){
-            editMoney.setAmount(i*choseInc);
+            editMoney.setAmount((int) i*choseInc*Utils.ratio());
             editMoney.setTime(dateChose);
             editMoney.setContent(String.valueOf(Utils.iconToInt(icon)));
             editMoney.setDescription(mNote.getText().toString());
             db.update(editMoney);
+            startActivity(intent);
         }
         else if(mAmount.getText().toString().length()!=0 && icon>0 ) {
-            MoneyEntry money = new MoneyEntry(i*choseInc, dateChose,
-                    String.valueOf(Utils.iconToInt(icon)), mNote.getText().toString());
-            db.insert(money);
+            if(choseInc==-1 && Utils.checkPossible(db, dateChose, (int) i*Utils.ratio()) != 0) {
+                BottomSheetMaterialDialog mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
+                        .setTitle(getString(R.string.warning))
+                        .setMessage(getString(R.string.warning_description))
+                        .setCancelable(false)
+                        .setAnimation(R.raw.error_warning)
+                        .setPositiveButton(getString(R.string.confirm), R.drawable.ic_confirm, new BottomSheetMaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                MoneyEntry money = new MoneyEntry((int) i * choseInc * Utils.ratio(), dateChose,
+                                        String.valueOf(Utils.iconToInt(icon)), mNote.getText().toString());
+                                db.insert(money);
+                                startActivity(intent);
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.cancel), R.drawable.ic_cancel, new BottomSheetMaterialDialog.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .build();
+
+                // Show Dialog
+                mBottomSheetDialog.show();
+            }
+            else {
+                MoneyEntry money = new MoneyEntry((int) i * choseInc * Utils.ratio(), dateChose,
+                        String.valueOf(Utils.iconToInt(icon)), mNote.getText().toString());
+                db.insert(money);
+                startActivity(intent);
+            }
         }
-        startActivity(intent);
+
     }
 
     @Override

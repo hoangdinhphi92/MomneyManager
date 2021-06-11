@@ -1,40 +1,35 @@
 package com.example.momney.manager.activities;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.momney.manager.R;
-import com.example.momney.manager.SettingActivity;
 import com.example.momney.manager.data.MoneyDatabase;
-import com.example.momney.manager.data.MoneyEntry;
 import com.example.momney.manager.screen.MyPagerAdapter;
 import com.example.momney.manager.screen.wallet.WalletFragment;
 import com.example.momney.manager.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Locale;
+import dev.shreyaspatil.MaterialDialog.AbstractDialog;
+import dev.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
+import dev.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 public class MainActivity extends AppCompatActivity {
     private MoneyDatabase database;
     Bundle bundle;
+    public static ImageView alert;
 
 
     @Override
@@ -43,12 +38,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Utils.restoreState(this);
-
+        Utils.restore();
         initFloatingButton();
 
         TabLayout tabLayout = initTab();
 
         TextView textView = findViewById(R.id.tab_name);
+        alert = findViewById(R.id.alert_icon);
+        if(Utils.weekUse == 0 || Utils.monthUse == 0 || Utils.yearUse == 0 ||
+                Utils.limitOver(0, this) || Utils.limitOver(1, this) ||
+                Utils.limitOver(2, this)){
+            alert.setVisibility(View.VISIBLE);
+        }
         textView.setText(R.string.wallet);
 
         initViewPager(tabLayout, textView);
@@ -125,4 +126,32 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void Alert(View view) {
+        if(Utils.weekUse == 0 || Utils.monthUse == 0 || Utils.yearUse == 0  ||
+                Utils.limitOver(0, this) || Utils.limitOver(1, this) ||
+                Utils.limitOver(2, this)){
+            BottomSheetMaterialDialog mBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
+                    .setTitle(getString(R.string.notifi))
+                    .setMessage( getString(R.string.notify_desc) )
+                    .setCancelable(false)
+                    .setAnimation(R.raw.notification_bell)
+                    .setPositiveButton(getString(R.string.confirm), R.drawable.ic_confirm, new BottomSheetMaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.later), R.drawable.ic_cancel, new BottomSheetMaterialDialog.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .build();
+
+            // Show Dialog
+            mBottomSheetDialog.show();
+        }
+    }
 }

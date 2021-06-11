@@ -2,21 +2,16 @@ package com.example.momney.manager.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.example.momney.manager.R;
-import com.example.momney.manager.SettingActivity;
 import com.example.momney.manager.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 

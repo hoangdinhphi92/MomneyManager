@@ -86,8 +86,8 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
     public ArrayList<Integer> getIncomeEntry(int filter, long date) {
         ArrayList<Integer> entry = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
-        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+ " WHERE " + COLUMN_AMOUNT +">0"+
-                " ORDER BY (" + COLUMN_TIME + ") DESC", null);
+        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME +
+                " ORDER BY (" + COLUMN_AMOUNT + ") ASC", null);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(date);
         int month = calendar.get(Calendar.MONTH);
@@ -99,7 +99,7 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
                 for(int i = 0; i < 12; i++){
                     int total = 0;
                     while (moneyDB.moveToNext())
-                        if (Utils.getMonth(moneyDB.getLong(2)) == i &&
+                        if (moneyDB.getInt(1) > 0 && Utils.getMonth(moneyDB.getLong(2)) == i &&
                                 year == Utils.getYear(moneyDB.getLong(2)))
                             total = total + moneyDB.getInt(1);
                     entry.add(total);
@@ -110,7 +110,7 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
                 for (int i = 1; i<= daysInMonth; i++){
                     int total = 0;
                     while (moneyDB.moveToNext())
-                        if (Utils.getDayOfMonth(moneyDB.getLong(2)) == i &&
+                        if (moneyDB.getInt(1) > 0 && Utils.getDayOfMonth(moneyDB.getLong(2)) == i &&
                                 year == Utils.getYear(moneyDB.getLong(2)) &&
                                 month== Utils.getMonth(moneyDB.getLong(2)))
                             total = total + moneyDB.getInt(1);
@@ -126,7 +126,7 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
                     int year1 = monday.get(Calendar.YEAR);
                     int total = 0;
                     while (moneyDB.moveToNext())
-                        if (Utils.getDayOfYear(moneyDB.getLong(2)) == day &&
+                        if (moneyDB.getInt(1) > 0 && Utils.getDayOfYear(moneyDB.getLong(2)) == day &&
                                 year1 == Utils.getYear(moneyDB.getLong(2)) )
                             total = total + moneyDB.getInt(1);
                     entry.add(total);
@@ -143,8 +143,8 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
     public ArrayList<Integer> getExpenseEntry(int filter, long date) {
         ArrayList<Integer> entry = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
-        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+ " WHERE " + COLUMN_AMOUNT +" <0 "+
-                " ORDER BY (" + COLUMN_TIME + ") DESC", null);
+        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+
+                " ORDER BY (" + COLUMN_AMOUNT + ") DESC", null);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(date);
         int month = calendar.get(Calendar.MONTH);
@@ -156,7 +156,7 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
                 for(int i = 0; i < 12; i++){
                     int total = 0;
                     while (moneyDB.moveToNext())
-                        if (Utils.getMonth(moneyDB.getLong(2)) == i &&
+                        if (moneyDB.getInt(1) < 0 && Utils.getMonth(moneyDB.getLong(2)) == i &&
                                 year == Utils.getYear(moneyDB.getLong(2)))
                             total = total + moneyDB.getInt(1)*-1;
                     entry.add(total);
@@ -167,7 +167,7 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
                 for (int i = 1; i<= daysInMonth; i++){
                     int total = 0;
                     while (moneyDB.moveToNext())
-                        if (Utils.getDayOfMonth(moneyDB.getLong(2)) == i &&
+                        if (moneyDB.getInt(1) < 0 && Utils.getDayOfMonth(moneyDB.getLong(2)) == i &&
                                 year == Utils.getYear(moneyDB.getLong(2)) &&
                                 month== Utils.getMonth(moneyDB.getLong(2)))
                             total = total + moneyDB.getInt(1)*-1;
@@ -183,7 +183,7 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
                     int year1 = monday.get(Calendar.YEAR);
                     int total = 0;
                     while (moneyDB.moveToNext())
-                        if (Utils.getDayOfYear(moneyDB.getLong(2)) == day &&
+                        if (moneyDB.getInt(1) < 0 && Utils.getDayOfYear(moneyDB.getLong(2)) == day &&
                                 year1 == Utils.getYear(moneyDB.getLong(2)) )
                             total = total + moneyDB.getInt(1)*-1;
                     entry.add(total);

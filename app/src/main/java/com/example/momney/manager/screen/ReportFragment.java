@@ -202,7 +202,7 @@ public class ReportFragment extends Fragment implements AdapterView.OnItemSelect
                                 .setActivatedYear(today.get(Calendar.YEAR))
                                 .setMaxYear(2050)
                                 .setMinMonth(Calendar.JANUARY)
-                                .setTitle("Select Year")
+                                .setTitle(getString(R.string.select_year))
                                 .setMonthRange(Calendar.JANUARY, Calendar.DECEMBER)
                                 .showYearOnly()
                                 .setOnYearChangedListener(new MonthPickerDialog.OnYearChangedListener() {
@@ -221,7 +221,7 @@ public class ReportFragment extends Fragment implements AdapterView.OnItemSelect
                                 .setActivatedYear(today.get(Calendar.YEAR))
                                 .setMaxYear(2050)
                                 .setMinMonth(Calendar.JANUARY)
-                                .setTitle("Select Month")
+                                .setTitle(getString(R.string.select_month))
                                 .setMonthRange(Calendar.JANUARY, Calendar.DECEMBER)
                                 .setOnMonthChangedListener(new MonthPickerDialog.OnMonthChangedListener() {
                                     @Override
@@ -270,8 +270,8 @@ public class ReportFragment extends Fragment implements AdapterView.OnItemSelect
         pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.setEntryLabelTypeface(Typeface.SERIF);
         if (isExpense)
-            pieChart.setCenterText("Spending by Category");
-        else pieChart.setCenterText("Income by Category");
+            pieChart.setCenterText(getString(R.string.expense_center));
+        else pieChart.setCenterText(getString(R.string.income_center));
         pieChart.setCenterTextSize(24);
         pieChart.setDrawEntryLabels(true);
         pieChart.getDescription().setEnabled(false);
@@ -440,7 +440,7 @@ public class ReportFragment extends Fragment implements AdapterView.OnItemSelect
             wheelList.add(Utils.getStringWeek(dateList.get(i)));
         }
         WheelViewDialog dialog = new WheelViewDialog(getContext());
-        dialog.setTitle("Chose week")
+        dialog.setTitle(getString(R.string.chose_week))
                 .setItems(wheelList)
                 .setDialogStyle(Color.parseColor("#6699ff"))
                 .setCount(3)

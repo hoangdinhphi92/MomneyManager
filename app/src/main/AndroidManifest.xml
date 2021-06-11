@@ -12,7 +12,7 @@
         android:theme="@style/Theme.MomneyManager">
         <activity android:name=".activities.CurrencyActivity"></activity>
         <activity android:name=".activities.LanguageActivity" />
-        <activity android:name=".SettingActivity" />
+        <activity android:name=".activities.SettingActivity" />
         <activity android:name=".activities.ContentActivity" />
         <activity android:name=".activities.MainActivity">
             <intent-filter>
