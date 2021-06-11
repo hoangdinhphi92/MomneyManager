@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Momney Manager</string>
+    <string name="app_name">Money Manager</string>
     <string name="wallet">Wallet</string>
     <string name="report">Report</string>
     <string name="add_trans">Add Transaction</string>
@@ -7,7 +7,6 @@
     <string name="income">Income</string>
     <string name="expense">Expense</string>
     <string name="transaction">Transaction</string>
-    <string name="confirm">Confirm</string>
     <string name="back">Back</string>
     <string name="add_note">Add Note...</string>
     <string-array name="time_array">
@@ -16,23 +15,71 @@
         <item>Week</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="chose_date">Chose Date</string>
-    <string name="vnd">VND</string>
+    <string name="vnd" translatable="false">VND</string>
     <string name="week">Week</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
     <string name="spending">Spending</string>
     <string name="language">Language</string>
-    <string name="english">English</string>
+    <string name="english" translatable="false">English</string>
     <string name="chose_content">Chose content</string>
     <string name="chose_language">Chose Language</string>
-    <string name="vietnam">Tiếng Việt</string>
-    <string name="chinese">中国人</string>
-    <string name="japanese">日本語</string>
-    <string name="_0">0</string>
+    <string name="vietnam" translatable="false">Tiếng Việt</string>
+    <string name="chinese" translatable="false">中国人</string>
+    <string name="japanese" translatable="false">日本語</string>
+    <string name="_0" translatable="false">0</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="currency">Currency</string>
+    <string name="confirm">Confirm</string>
+    <string name="eating">Eating</string>
+    <string name="travel">Travel</string>
+    <string name="sport">Sport</string>
+    <string name="house_rent">House rent</string>
+    <string name="bill">Bill</string>
+    <string name="health">Health</string>
+    <string name="education">Education</string>
+    <string name="game">Game</string>
+    <string name="online_services">Online Services</string>
+    <string name="salary">Salary</string>
+    <string name="housewares">Housewares</string>
+    <string name="transfers">Transfers</string>
+    <string name="pet">Pet</string>
+    <string name="vihicle">Vehicle</string>
+    <string name="orthers">Others</string>
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+    <string name="usd" translatable="false">USD</string>
+    <string name="rmb" translatable="false">¥(CNY)</string>
+    <string name="yen" translatable="false">¥(JPY)</string>
+    <string name="chose_currency">Chose Currency</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+    <string name="this_month">This month</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="this_week">This week</string>
+    <string name="week_alert">\"Set this week\'s spending to \"</string>
+    <string name="month_alert">\"Set this month\'s spending to \"</string>
+    <string name="year_alert">\"Set this year\'s spending to \"</string>
+    <string name="this_year">This year</string>
     <string-array name="content">
         <item>Eating</item>
         <item>Travel</item>
@@ -44,7 +91,7 @@
         <item>Game</item>
         <item>Online Services</item>
         <item>Salary</item>
-        <item>Houseware</item>
+        <item>Housewares</item>
         <item>Transfers</item>
         <item>Pet</item>
         <item>Vehicle</item>

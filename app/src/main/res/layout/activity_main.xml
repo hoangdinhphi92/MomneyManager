@@ -11,16 +11,11 @@
 
     <View
         android:id="@+id/divider3"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="8dp"/>
-
-
-
-
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="48dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_trans"
@@ -36,7 +31,7 @@
         app:srcCompat="@android:drawable/ic_input_add" />
 
 
-    <androidx.viewpager.widget.ViewPager
+    <com.example.momney.manager.activities.CustomViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

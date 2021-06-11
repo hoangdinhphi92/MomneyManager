@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Money Manager</string>
+    <string name="wallet">Ví</string>
+    <string name="report">Báo cáo</string>
+    <string name="add_trans">Thêm khoản chi tiêu</string>
+    <string name="setting">Cài đặt</string>
+    <string name="income">Thu</string>
+    <string name="expense">Chi</string>
+    <string name="transaction">Giao dịch</string>
+    <string name="back">Quay lại</string>
+    <string name="add_note">Thêm chi tiết</string>
+    <string name="chose_date">Chọn ngày</string>
+    <string name="week">Tuần</string>
+    <string name="month">Tháng</string>
+    <string name="year">Năm</string>
+    <string name="spending">Mức chi tiêu</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="chose_content">Chọn nhóm</string>
+    <string name="chose_language">Chọn ngôn ngữ</string>
+    <string name="edit">Sửa</string>
+    <string name="delete">Xóa</string>
+    <string name="currency">Loại tiền</string>
+    <string name="confirm">Đồng ý</string>
+    <string name="eating">Ăn uống</string>
+    <string name="travel">Di chuyển</string>
+    <string name="sport">Thể thao</string>
+    <string name="health">Sức khỏe</string>
+    <string-array name="content">
+        <item>Ăn uống</item>
+        <item>Di chuyển</item>
+        <item>Thể thao</item>
+        <item>Thuê nhà</item>
+        <item>Hóa đơn</item>
+        <item>Khám sức khỏe</item>
+        <item>Giáo dục</item>
+        <item>Trò chơi</item>
+        <item>Dịch vụ trực tuyến</item>
+        <item>Lương</item>
+        <item>Đồ gia dụng</item>
+        <item>Giao dịch</item>
+        <item>Thú cưng</item>
+        <item>Phương tiện</item>
+        <item>Khác</item>
+    </string-array>
+
+    <string-array name="time_array">
+        <item>Tất cả</item>
+        <item>Tháng</item>
+        <item>Tuần</item>
+    </string-array>
+    <string name="house_rent">Thuê nhà</string>
+    <string name="bill">Hóa đơn</string>
+    <string name="education">Giáo dục</string>
+    <string name="game">Giải trí</string>
+    <string name="online_services">Dịch vụ trực tuyến</string>
+    <string name="salary">Lương</string>
+    <string name="housewares">Đồ gia dụng</string>
+    <string name="transfers">Chuyển tiền</string>
+    <string name="pet">Thú cưng</string>
+    <string name="vihicle">Phương tiện</string>
+    <string name="orthers">Khác</string>
+    <string name="january">Tháng 1</string>
+    <string name="february">Tháng 2</string>
+    <string name="march">Tháng 3</string>
+    <string name="april">Tháng 4</string>
+    <string name="may">Tháng 5</string>
+    <string name="june">Tháng 6</string>
+    <string name="july">Tháng 7</string>
+    <string name="august">Tháng 8</string>
+    <string name="september">Tháng 9</string>
+    <string name="october">Tháng 10</string>
+    <string name="november">Tháng 11</string>
+    <string name="december">Tháng 12</string>
+    <string name="chose_currency">Chọn loại tiền</string>
+    <string name="monday">Thứ 2</string>
+    <string name="tuesday">Thứ 3</string>
+    <string name="wednesday">Thứ 4</string>
+    <string name="thursday">Thứ 5</string>
+    <string name="friday">Thứ 6</string>
+    <string name="saturday">Thứ 7</string>
+    <string name="sunday">Chủ nhật</string>
+    <string name="this_month">Tháng này</string>
+    <string name="today">Hôm nay</string>
+    <string name="yesterday">Hôm qua</string>
+    <string name="this_week">Tuần này</string>
+</resources>

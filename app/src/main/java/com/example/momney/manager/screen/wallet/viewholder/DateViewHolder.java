@@ -25,13 +25,13 @@ public class DateViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void build(DateHeader dateHeader1){
-        dateHeader.setText(Utils.millisecondToString(dateHeader1.getDate(), dateHeader1.getFilter()));
+        dateHeader.setText(Utils.millisecondToString(dateHeader1.getDate(), dateHeader1.getFilter(), dateHeader.getContext()));
         if(dateHeader1.getTotal()>0){
-            total.setText(String.format("+%s",Utils.amountToString((int) dateHeader1.getTotal(), "VND")));
+            total.setText(String.format("+%s",  Utils.amountToString((int) dateHeader1.getTotal())));
             total.setTextColor(itemView.getContext().getResources().getColor(R.color.income));
         }
         else {
-            total.setText(String.format("%s",Utils.amountToString((int) dateHeader1.getTotal(), "VND")));
+            total.setText(Utils.amountToString((int) dateHeader1.getTotal()));
             total.setTextColor(itemView.getContext().getResources().getColor(R.color.expense));
         }
     }

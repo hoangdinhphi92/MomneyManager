@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.LanguageActivity">
+    tools:context=".activities.CurrencyActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +20,8 @@
             android:src="@drawable/back"
             android:background="#00000000"
             android:onClick="Confirm"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            tools:ignore="UsingOnClickInXml" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
             android:id="@+id/header"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:text="@string/chose_language"
+            android:text="@string/chose_currency"
             android:layout_centerInParent="true"
             />
 
@@ -39,50 +39,50 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/gr_language"
-        android:layout_gravity="right">
+        android:layout_gravity="right"
+        tools:ignore="RtlHardcoded">
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/english"
+            android:text="@string/usd"
             android:textSize="18sp"
             android:button="@drawable/check_button"
-            android:id="@+id/en"
+            android:id="@+id/usd"
             android:padding="8dp"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            tools:ignore="UsingOnClickInXml" />
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/vietnam"
+            android:text="@string/vnd"
             android:textSize="18sp"
-            android:id="@+id/vi"
+            android:id="@+id/vnd"
             android:button="@drawable/check_button"
             android:padding="8dp"
-            android:onClick="onRadioButtonClicked"/>
-
-        <RadioButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/chinese"
-            android:textSize="18sp"
-            android:id="@+id/zh"
-            android:button="@drawable/check_button"
-            android:padding="8dp"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            tools:ignore="UsingOnClickInXml" />
 
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/japanese"
+            android:text="@string/rmb"
             android:textSize="18sp"
-            android:id="@+id/ja"
+            android:id="@+id/rbm"
             android:button="@drawable/check_button"
             android:padding="8dp"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            tools:ignore="UsingOnClickInXml" />
 
-
-
-
-
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/yen"
+            android:textSize="18sp"
+            android:id="@+id/jpy"
+            android:button="@drawable/check_button"
+            android:padding="8dp"
+            android:onClick="onRadioButtonClicked"
+            tools:ignore="UsingOnClickInXml" />
 
 
 

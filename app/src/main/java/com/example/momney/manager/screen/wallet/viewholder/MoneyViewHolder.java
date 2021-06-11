@@ -57,20 +57,21 @@ public class MoneyViewHolder extends RecyclerView.ViewHolder {
         Calendar calendar = Calendar.getInstance();
         long date = entry.getTime();
         calendar.setTimeInMillis(date);
+        int context = Integer.parseInt(entry.getContent());
         numDate.setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-        textDate.setText(Utils.millisecondToDateInWeek(entry.getTime()));
-        content.setText(entry.getContent());
+        textDate.setText(Utils.millisecondToDateInWeek(entry.getTime(), textDate.getContext()));
+        content.setText(Utils.getContentFromInt(amountSpent.getContext(), context));
         description.setText(entry.getDescription());
         int amount = moneyData.getMoneyEntry().getAmount();
         if (amount > 0) {
-            amountSpent.setText(String.format("+%s", Utils.amountToString(amount, "VND")));
+            amountSpent.setText(String.format("+%s",Utils.amountToString(amount)));
             amountSpent.setTextColor(itemView.getContext().getResources().getColor(R.color.income));
         } else {
-            amountSpent.setText(String.format("%s", Utils.amountToString(amount, "VND")));
+            amountSpent.setText(Utils.amountToString(amount));
             amountSpent.setTextColor(itemView.getContext().getResources().getColor(R.color.expense));
         }
 
-        transIcon.setImageResource(Utils.contentToIcon(moneyData.getMoneyEntry().getContent()));
+        transIcon.setImageResource(Utils.intToIcon(context));
 
     }
 
@@ -78,5 +79,7 @@ public class MoneyViewHolder extends RecyclerView.ViewHolder {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.money_item, parent, false);
         return new MoneyViewHolder(v);
     }
+
+
 
 }

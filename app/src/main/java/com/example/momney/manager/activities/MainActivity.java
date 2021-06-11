@@ -9,7 +9,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,21 +20,29 @@ import android.widget.Toast;
 import com.example.momney.manager.R;
 import com.example.momney.manager.SettingActivity;
 import com.example.momney.manager.data.MoneyDatabase;
+import com.example.momney.manager.data.MoneyEntry;
 import com.example.momney.manager.screen.MyPagerAdapter;
 import com.example.momney.manager.screen.wallet.WalletFragment;
+import com.example.momney.manager.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private MoneyDatabase database;
     Bundle bundle;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Utils.restoreState(this);
 
         initFloatingButton();
 
@@ -51,21 +62,7 @@ public class MainActivity extends AppCompatActivity {
             newTrans.setArguments(bundle);
             transaction.replace(R.id.view_pager, newTrans);
             transaction.commit();
-//            showToast(bundle.getString("new_content"));
-//            showToast(String.valueOf(bundle.getInt("new_amount")));
-//            showToast(String.valueOf(bundle.getInt("new_date")));
-//            if (bundle.getBoolean("new_desc"))
-//                showToast(bundle.getString("new_desc"));
         }
-    }
-
-    public Bundle getBundle() {
-        return bundle;
-    }
-
-    private void showToast(String new_content) {
-        Toast m = Toast.makeText(this, new_content, Toast.LENGTH_SHORT);
-        m.show();
     }
 
 
@@ -111,20 +108,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, TransactionActivity.class);
-                startActivityForResult(intent, 125);
+                startActivity(intent);
 
             }
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 125 && resultCode == Activity.RESULT_OK) {
-            database.insert();
-        }
-    }
 
     public MoneyDatabase getDatabase() {
         return database;
@@ -134,4 +124,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, SettingActivity.class);
         startActivity(intent);
     }
+
 }

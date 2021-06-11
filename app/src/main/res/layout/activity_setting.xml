@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".SettingActivity">
 
     <TextView
@@ -43,10 +43,23 @@
         android:contentDescription="@string/back"
         tools:ignore="VectorDrawableCompat" />
 
+    <TextView
+        android:id="@+id/spending"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/spending"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
     <View
         android:id="@+id/view"
         android:layout_width="0dp"
-        android:layout_height="160dp"
+        android:layout_height="180dp"
         android:layout_marginStart="14dp"
         android:layout_marginLeft="14dp"
         android:layout_marginTop="16dp"
@@ -67,7 +80,9 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/divider"
         app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintTop_toTopOf="@+id/view"
+        android:onClick="ChoseWeek"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/month_button"
@@ -78,7 +93,9 @@
         android:textColor="#CFC9C9"
         app:layout_constraintEnd_toStartOf="@+id/divider2"
         app:layout_constraintStart_toEndOf="@+id/divider"
-        app:layout_constraintTop_toTopOf="@+id/week_button" />
+        app:layout_constraintTop_toTopOf="@+id/week_button"
+        android:onClick="ChoseMonth"
+        tools:ignore="UsingOnClickInXml" />
 
     <Button
         android:id="@+id/year_button"
@@ -89,7 +106,8 @@
         android:textColor="#CFC9C9"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintStart_toEndOf="@+id/divider2"
-        app:layout_constraintTop_toTopOf="@+id/week_button" />
+        app:layout_constraintTop_toTopOf="@+id/week_button"
+        android:onClick="ChoseYear"/>
 
     <View
         android:id="@+id/divider"
@@ -113,6 +131,23 @@
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintTop_toTopOf="@+id/year_button" />
 
+    <EditText
+        android:id="@+id/amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:inputType="numberDecimal"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:gravity="right"
+        app:layout_constraintEnd_toStartOf="@+id/currency"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintBottom_toTopOf="@id/confirm"/>
+
     <TextView
         android:id="@+id/currency"
         android:layout_width="60sp"
@@ -128,39 +163,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/amount"
         app:layout_constraintEnd_toEndOf="@+id/view"
         app:layout_constraintTop_toTopOf="@+id/amount" />
-
-    <EditText
-        android:id="@+id/amount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:ems="10"
-        android:gravity="right"
-        android:inputType="number"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/currency"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        tools:ignore="LabelFor,RtlHardcoded"
-        android:autofillHints="" />
-
-    <TextView
-        android:id="@+id/spending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/spending"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
     <View
         android:id="@+id/chose_day"
@@ -189,7 +191,8 @@
         app:layout_constraintTop_toTopOf="@+id/chose_day"
         app:srcCompat="@mipmap/language"
         android:onClick="ChoseLanguage"
-        android:contentDescription="@string/chose_date" />
+        android:contentDescription="@string/chose_date"
+        tools:ignore="UsingOnClickInXml" />
 
     <ImageButton
         android:id="@+id/pick"
@@ -200,7 +203,7 @@
         app:layout_constraintTop_toTopOf="@+id/chose_day"
         app:srcCompat="@drawable/pick"
         android:background="#00000000"
-        tools:ignore="VectorDrawableCompat"
+        tools:ignore="UsingOnClickInXml,VectorDrawableCompat"
         android:onClick="ChoseLanguage"
         android:contentDescription="@string/chose_date" />
 
@@ -218,7 +221,8 @@
         app:layout_constraintEnd_toStartOf="@+id/cur_language"
         app:layout_constraintStart_toEndOf="@+id/language_icon"
         app:layout_constraintTop_toTopOf="@+id/language_icon"
-        android:onClick="ChoseLanguage"/>
+        android:onClick="ChoseLanguage"
+        tools:ignore="UsingOnClickInXml" />
 
     <TextView
         android:id="@+id/cur_language"
@@ -226,7 +230,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="@string/english"
         android:gravity="right"
         android:textSize="18sp"
         android:textColor="@color/blue"
@@ -234,9 +237,98 @@
         app:layout_constraintEnd_toStartOf="@+id/pick"
         app:layout_constraintStart_toEndOf="@+id/month_button"
         app:layout_constraintTop_toTopOf="@+id/pick"
-        tools:ignore="RtlHardcoded"
+        tools:ignore="RtlHardcoded,UsingOnClickInXml"
         android:onClick="ChoseLanguage"/>
 
+    <View
+        android:id="@+id/chose_currency"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/chose_day"
+        android:background="@drawable/calendar" />
+
+    <ImageButton
+        android:id="@+id/currency_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:background="#00000000"
+        app:layout_constraintBottom_toBottomOf="@+id/chose_currency"
+        app:layout_constraintStart_toStartOf="@+id/chose_currency"
+        app:layout_constraintTop_toTopOf="@+id/chose_currency"
+        app:srcCompat="@mipmap/language"
+        android:onClick="ChoseCurrency"
+        android:contentDescription="@string/chose_date"
+        tools:ignore="UsingOnClickInXml" />
+
+    <ImageButton
+        android:id="@+id/pick_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/chose_currency"
+        app:layout_constraintEnd_toEndOf="@+id/chose_currency"
+        app:layout_constraintTop_toTopOf="@+id/chose_currency"
+        app:srcCompat="@drawable/pick"
+        android:background="#00000000"
+        tools:ignore="UsingOnClickInXml,VectorDrawableCompat"
+        android:onClick="ChoseCurrency"
+        android:contentDescription="@string/chose_date" />
+
+    <TextView
+        android:id="@+id/currency_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/currency"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/currency_icon"
+        app:layout_constraintEnd_toStartOf="@+id/cur_currency"
+        app:layout_constraintStart_toEndOf="@+id/currency_icon"
+        app:layout_constraintTop_toTopOf="@+id/currency_icon"
+        android:onClick="ChoseCurrency"
+        tools:ignore="UsingOnClickInXml" />
+
+    <TextView
+        android:id="@+id/cur_currency"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/vnd"
+        android:gravity="right"
+        android:textSize="18sp"
+        android:textColor="@color/blue"
+        app:layout_constraintBottom_toBottomOf="@+id/pick_currency"
+        app:layout_constraintEnd_toStartOf="@+id/pick_currency"
+        app:layout_constraintStart_toEndOf="@+id/month_button"
+        app:layout_constraintTop_toTopOf="@+id/pick_currency"
+        tools:ignore="RtlHardcoded,UsingOnClickInXml"
+        android:onClick="ChoseCurrency"/>
+
+    <Button
+        android:id="@+id/confirm"
+        style="@style/ConfirmButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm"
+        app:backgroundTint="#4CAF50"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/currency"
+        app:layout_constraintStart_toStartOf="@+id/amount"
+        app:layout_constraintTop_toBottomOf="@+id/amount"
+        android:onClick="Confirm"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

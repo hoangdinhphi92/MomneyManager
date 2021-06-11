@@ -1,5 +1,6 @@
 package com.example.momney.manager.screen.wallet;
 
+import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.momney.manager.activities.MainActivity;
+import com.example.momney.manager.activities.TransactionActivity;
 import com.example.momney.manager.screen.wallet.data.DateHeader;
 import com.example.momney.manager.screen.wallet.data.MoneyData;
 import com.example.momney.manager.screen.wallet.data.TotalHeader;
@@ -77,6 +80,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 public boolean onLongClick(View v) {
                     Toast.makeText(v.getContext(), "Longggg", Toast.LENGTH_SHORT).show();
 
+                    Intent intent = new Intent();
                     return true;
                 }
             });

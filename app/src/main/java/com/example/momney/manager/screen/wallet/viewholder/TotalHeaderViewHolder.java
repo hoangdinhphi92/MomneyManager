@@ -24,8 +24,8 @@ public class TotalHeaderViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void build(TotalHeader totalHeader) {
-        totalIncome.setText( String.format("%s", Utils.amountToString((int) totalHeader.getIncome(), "VND")));
-        totalExpense.setText( String.format("%s",Utils.amountToString((int) totalHeader.getExpense(), "VND")));
+        totalIncome.setText(Utils.amountToString((int) totalHeader.getIncome()));
+        totalExpense.setText(Utils.amountToString((int) totalHeader.getExpense()));
     }
 
     public static TotalHeaderViewHolder create(ViewGroup parent) {

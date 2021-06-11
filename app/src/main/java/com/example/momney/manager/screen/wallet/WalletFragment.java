@@ -1,5 +1,6 @@
 package com.example.momney.manager.screen.wallet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.momney.manager.R;
+import com.example.momney.manager.activities.MainActivity;
+import com.example.momney.manager.activities.TransactionActivity;
 import com.example.momney.manager.data.MoneyDatabase;
 import com.example.momney.manager.data.MoneyDatabaseImpl;
 import com.example.momney.manager.data.MoneyEntry;
@@ -25,6 +28,7 @@ import com.example.momney.manager.screen.wallet.data.TotalHeader;
 import com.example.momney.manager.screen.wallet.data.TransactionData;
 import com.example.momney.manager.screen.wallet.viewholder.MoneyViewHolder;
 import com.example.momney.manager.utils.Utils;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -54,14 +58,13 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
         super.onViewCreated(view, savedInstanceState);
         initRecycleView(view);
         initSpinner(view);
+
         database = new MoneyDatabaseImpl(getContext());
-        database.deleteTable();
-        for (int index = 0; index < 100; index++) {
-            addTest();
-        }
+
         updateData();
 
-        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(RecyclerView recyclerView,
                                   RecyclerView.ViewHolder viewHolder,
@@ -69,17 +72,27 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
                 return false;
             }
 
+
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder,
                                  int direction) {
                 if (viewHolder instanceof MoneyViewHolder) {
                     MoneyData moneyData = ((MoneyViewHolder) viewHolder).getMoneyData();
 
-                    database.delete(moneyData.getMoneyEntry());
-                    items.remove(moneyData);
+                    if(direction==4){
+                        database.delete(moneyData.getMoneyEntry());
+                        items.remove(moneyData);
 
-                    adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                    ///updateData();
+                        adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                    }
+                    else {
+                        Intent intent = new Intent(getActivity(), TransactionActivity.class);
+                        Gson gson = new Gson();
+                        String myJson = gson.toJson(moneyData);
+                        intent.putExtra("myJson", myJson);
+                        startActivity(intent);
+                    }
+                    updateData();
                 }
 
             }
@@ -152,8 +165,7 @@ public class WalletFragment extends Fragment implements AdapterView.OnItemSelect
     private void addTest() {
         Random random = new Random();
         int contentId = random.nextInt(15);
-        String content = Utils.getContentFromId(contentId);
-
+        String content = String.valueOf(contentId);
         int amount = (10 + random.nextInt(900)) * 1000;
         long time = System.currentTimeMillis() - (random.nextInt(30) * 24L * 60L * 60L * 1000L);
 

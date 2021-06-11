@@ -5,10 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.example.momney.manager.utils.Utils;
 
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -83,6 +83,120 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
     }
 
     @Override
+    public ArrayList<Integer> getIncomeEntry(int filter, long date) {
+        ArrayList<Integer> entry = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+ " WHERE " + COLUMN_AMOUNT +">0"+
+                " ORDER BY (" + COLUMN_TIME + ") DESC", null);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(date);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        YearMonth yearMonthObject = YearMonth.of(year, month+1 );
+        int daysInMonth = yearMonthObject.lengthOfMonth();
+        switch (filter){
+            case FILTER_ALL:
+                for(int i = 0; i < 12; i++){
+                    int total = 0;
+                    while (moneyDB.moveToNext())
+                        if (Utils.getMonth(moneyDB.getLong(2)) == i &&
+                                year == Utils.getYear(moneyDB.getLong(2)))
+                            total = total + moneyDB.getInt(1);
+                    entry.add(total);
+                    moneyDB.moveToFirst();
+                }
+                break;
+            case FILTER_MONTH:
+                for (int i = 1; i<= daysInMonth; i++){
+                    int total = 0;
+                    while (moneyDB.moveToNext())
+                        if (Utils.getDayOfMonth(moneyDB.getLong(2)) == i &&
+                                year == Utils.getYear(moneyDB.getLong(2)) &&
+                                month== Utils.getMonth(moneyDB.getLong(2)))
+                            total = total + moneyDB.getInt(1);
+                    entry.add(total);
+                    moneyDB.moveToFirst();
+                }
+                break;
+            case FILTER_WEEK:
+                Calendar monday = Calendar.getInstance();
+                monday.setTimeInMillis(Utils.firstDayOfWeek(date));
+                for (int i = 0; i<=6; i++){
+                    int day = monday.get(Calendar.DAY_OF_YEAR);
+                    int year1 = monday.get(Calendar.YEAR);
+                    int total = 0;
+                    while (moneyDB.moveToNext())
+                        if (Utils.getDayOfYear(moneyDB.getLong(2)) == day &&
+                                year1 == Utils.getYear(moneyDB.getLong(2)) )
+                            total = total + moneyDB.getInt(1);
+                    entry.add(total);
+                    monday.add(Calendar.DATE, 1);
+                    moneyDB.moveToFirst();
+                }
+                break;
+        }
+        moneyDB.close();
+        return entry;
+    }
+
+    @Override
+    public ArrayList<Integer> getExpenseEntry(int filter, long date) {
+        ArrayList<Integer> entry = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+ " WHERE " + COLUMN_AMOUNT +" <0 "+
+                " ORDER BY (" + COLUMN_TIME + ") DESC", null);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(date);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        YearMonth yearMonthObject = YearMonth.of(year, month+1 );
+        int daysInMonth = yearMonthObject.lengthOfMonth();
+        switch (filter){
+            case FILTER_ALL:
+                for(int i = 0; i < 12; i++){
+                    int total = 0;
+                    while (moneyDB.moveToNext())
+                        if (Utils.getMonth(moneyDB.getLong(2)) == i &&
+                                year == Utils.getYear(moneyDB.getLong(2)))
+                            total = total + moneyDB.getInt(1)*-1;
+                    entry.add(total);
+                    moneyDB.moveToFirst();
+                }
+                break;
+            case FILTER_MONTH:
+                for (int i = 1; i<= daysInMonth; i++){
+                    int total = 0;
+                    while (moneyDB.moveToNext())
+                        if (Utils.getDayOfMonth(moneyDB.getLong(2)) == i &&
+                                year == Utils.getYear(moneyDB.getLong(2)) &&
+                                month== Utils.getMonth(moneyDB.getLong(2)))
+                            total = total + moneyDB.getInt(1)*-1;
+                    entry.add(total);
+                    moneyDB.moveToFirst();
+                }
+                break;
+            case FILTER_WEEK:
+                Calendar monday = Calendar.getInstance();
+                monday.setTimeInMillis(Utils.firstDayOfWeek(date));
+                for (int i = 0; i<=6; i++){
+                    int day = monday.get(Calendar.DAY_OF_YEAR);
+                    int year1 = monday.get(Calendar.YEAR);
+                    int total = 0;
+                    while (moneyDB.moveToNext())
+                        if (Utils.getDayOfYear(moneyDB.getLong(2)) == day &&
+                                year1 == Utils.getYear(moneyDB.getLong(2)) )
+                            total = total + moneyDB.getInt(1)*-1;
+                    entry.add(total);
+                    monday.add(Calendar.DATE, 1);
+                    moneyDB.moveToFirst();
+                }
+                break;
+        }
+        moneyDB.close();
+        return entry;
+    }
+
+    @Override
     public int total(long date, int filter) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+ " ORDER BY (" + COLUMN_TIME + ") DESC", null);
@@ -100,13 +214,120 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
                         total = total + moneyDB.getInt(1);
             case FILTER_WEEK:
                 while (moneyDB.moveToNext())
-                    if( Utils.getWeak(date)==Utils.getWeak(moneyDB.getLong(2))&&
+                    if( Utils.getWeek(date)==Utils.getWeek(moneyDB.getLong(2))&&
                             Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
                         total = total + moneyDB.getInt(1);
         }
         moneyDB.close();
         return total;
     }
+
+    @Override
+    public int totalUse(long date, int filter) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+ " WHERE " + COLUMN_AMOUNT +"<0"+
+                " ORDER BY (" + COLUMN_TIME + ") DESC", null);
+        int total=0;
+        switch (filter){
+            case FILTER_ALL:
+                while (moneyDB.moveToNext())
+                    if(Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+            case FILTER_MONTH:
+                while (moneyDB.moveToNext())
+                    if( Utils.getMonth(date)==Utils.getMonth(moneyDB.getLong(2)) &&
+                            Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+            case FILTER_WEEK:
+                while (moneyDB.moveToNext())
+                    if( Utils.getWeek(date)==Utils.getWeek(moneyDB.getLong(2))&&
+                            Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+        }
+        moneyDB.close();
+        return total*-1;
+    }
+
+    @Override
+    public int totalIncome(long date, int filter) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+ " WHERE " + COLUMN_AMOUNT +">0"+
+                " ORDER BY (" + COLUMN_TIME + ") DESC", null);
+        int total=0;
+        switch (filter){
+            case FILTER_ALL:
+                while (moneyDB.moveToNext())
+                    if(Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+            case FILTER_MONTH:
+                while (moneyDB.moveToNext())
+                    if( Utils.getMonth(date)==Utils.getMonth(moneyDB.getLong(2)) &&
+                            Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+            case FILTER_WEEK:
+                while (moneyDB.moveToNext())
+                    if( Utils.getWeek(date)==Utils.getWeek(moneyDB.getLong(2))&&
+                            Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+        }
+        moneyDB.close();
+        return total;
+    }
+
+    @Override
+    public int totalUseContent(long date, int filter, String content) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+ "" +
+                " WHERE " + COLUMN_CONTENT + "= '" + content + "' AND " + COLUMN_AMOUNT + " < 0" +
+                " ORDER BY (" + COLUMN_TIME + ") DESC", null);
+        int total=0;
+        switch (filter){
+            case FILTER_ALL:
+                while (moneyDB.moveToNext())
+                        if(Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                            total = total + moneyDB.getInt(1);
+            case FILTER_MONTH:
+                while (moneyDB.moveToNext())
+                    if( Utils.getMonth(date)==Utils.getMonth(moneyDB.getLong(2)) &&
+                            Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+            case FILTER_WEEK:
+                while (moneyDB.moveToNext())
+                    if( Utils.getWeek(date)==Utils.getWeek(moneyDB.getLong(2))&&
+                            Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+        }
+        moneyDB.close();
+        return total*-1;
+    }
+
+    @Override
+    public int totalIncomeContent(long date, int filter, String content) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor moneyDB = db.rawQuery(" SELECT* FROM " + TABLE_NAME+ "" +
+                " WHERE " + COLUMN_CONTENT + "= '" + content + "' AND " + COLUMN_AMOUNT + " > 0" +
+                " ORDER BY (" + COLUMN_TIME + ") DESC", null);
+        int total=0;
+        switch (filter){
+            case FILTER_ALL:
+                while (moneyDB.moveToNext())
+                    if(Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+            case FILTER_MONTH:
+                while (moneyDB.moveToNext())
+                    if( Utils.getMonth(date)==Utils.getMonth(moneyDB.getLong(2)) &&
+                            Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+            case FILTER_WEEK:
+                while (moneyDB.moveToNext())
+                    if( Utils.getWeek(date)==Utils.getWeek(moneyDB.getLong(2))&&
+                            Utils.getYear(date)==Utils.getYear(moneyDB.getLong(2)))
+                        total = total + moneyDB.getInt(1);
+        }
+        moneyDB.close();
+        return total;
+    }
+
 
     @Override
     public void deleteTable() {
@@ -135,15 +356,23 @@ public class MoneyDatabaseImpl extends SQLiteOpenHelper implements MoneyDatabase
     @Override
     public void update(MoneyEntry money) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE "+ TABLE_NAME +" SET " +
-                "amount ="+ money.getAmount() + ", time = " + money.getTime() +
-                " description = '" + money.getDescription() + "' WHERE id = " + money.getId() );
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_AMOUNT, money.getAmount());
+        values.put(COLUMN_DESCRIPTION, money.getDescription());
+        values.put(COLUMN_TIME, money.getTime());
+        values.put(COLUMN_CONTENT, money.getContent());
+        // Insert the new row, returning the primary key value of the new row
+        int count = db.update(TABLE_NAME, values, COLUMN_ID + "=?", new String[]{String.valueOf(money.getId())});
+
+
     }
 
     @Override
     public void delete(MoneyEntry money) {
         SQLiteDatabase db = getReadableDatabase();
-        db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{String.valueOf(money.getId())});
+        int count = db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{String.valueOf(money.getId())});
     }
 
     @Override

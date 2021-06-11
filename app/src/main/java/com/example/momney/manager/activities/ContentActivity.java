@@ -14,6 +14,7 @@ import com.example.momney.manager.activities.TransactionActivity;
 import com.example.momney.manager.data.Content;
 import com.example.momney.manager.screen.ContentAdapter;
 import com.example.momney.manager.screen.OnItemClickListener;
+import com.example.momney.manager.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -22,15 +23,16 @@ public class ContentActivity extends AppCompatActivity implements OnItemClickLis
     private ArrayList<Content> mContent;
     private ContentAdapter mAdapter;
     public static final String EXTRA_CONTENT =
-            "com.example.android.twoactivities.extra.content";
+            "com.example.momney.manager.extra.content";
     public static final String EXTRA_ICON =
-            "com.example.android.twoactivities.extra.icon";
+            "com.example.momney.manager.extra.icon";
     Bundle tState = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+        Utils.restoreState(this);
         RecyclerView mRecyclerView = findViewById(R.id.rcv_content);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -80,6 +82,7 @@ public class ContentActivity extends AppCompatActivity implements OnItemClickLis
         intent.putExtra(EXTRA_CONTENT, mContent);
         intent.putExtra(EXTRA_ICON, imageResource);
         startActivity(intent);
-
     }
+
+
 }

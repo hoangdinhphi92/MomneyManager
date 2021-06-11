@@ -20,39 +20,49 @@ import com.example.momney.manager.R;
 import com.example.momney.manager.data.MoneyDatabase;
 import com.example.momney.manager.data.MoneyDatabaseImpl;
 import com.example.momney.manager.data.MoneyEntry;
+import com.example.momney.manager.screen.wallet.data.MoneyData;
+import com.example.momney.manager.utils.Utils;
+import com.google.gson.Gson;
 
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class TransactionActivity extends AppCompatActivity {
+public class TransactionActivity extends AppCompatActivity implements Serializable {
 
     private int choseInc = 1;
-
     private static final String DATE_FORMAT = "EEE, MMM d, yyyy";
 
     Button mIncome;
     Button mExpense;
     View mView;
     TextView mDate;
+    TextView mLabel;
     ImageButton mIcon;
     TextView mContent;
     EditText mAmount;
     EditText mNote;
+    TextView mCurrency;
 
     long dateChose;
+    int icon;
+    boolean edit = false;
+
+    MoneyEntry editMoney;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
-        mapView();
 
+        mapView();
+        setEditState();
         if (savedInstanceState != null) {
             mDate.setText(savedInstanceState.getString("date"));
-            if(savedInstanceState.getBoolean("expense")) {
+                if(savedInstanceState.getBoolean("expense")) {
                 choseInc = -1;
                 mView.setBackground(ContextCompat.getDrawable(this, R.drawable.expense_background));
                 mIncome.setTextColor(ContextCompat.getColor(this, R.color.opa_white));
@@ -69,6 +79,34 @@ public class TransactionActivity extends AppCompatActivity {
 
     }
 
+    private void setEditState() {
+        Gson gson = new Gson();
+        MoneyData moneyData = gson.fromJson(getIntent().getStringExtra("myJson"), MoneyData.class);
+
+        if(moneyData!=null){
+            edit = true;
+            editMoney = moneyData.getMoneyEntry();
+            if(editMoney.getAmount()<0){
+                mAmount.setText(String.valueOf(-(editMoney.getAmount())));
+                mView.setBackground(ContextCompat.getDrawable(this, R.drawable.expense_background));
+                choseInc = -1;
+                mIncome.setTextColor(ContextCompat.getColor(this, R.color.opa_white));
+                mExpense.setTextColor(ContextCompat.getColor(this, R.color.white));
+            }
+            else mAmount.setText(String.valueOf((editMoney.getAmount())));
+            dateChose = editMoney.getTime();
+            mDate.setText(getDateString(dateChose));
+            mContent.setText(Utils.getContentFromInt(this, Integer.parseInt(editMoney.getContent())));
+            mIcon.setImageResource(Utils.intToIcon(Integer.parseInt(editMoney.getContent())));
+            mNote.setText(editMoney.getDescription());
+            icon = Utils.intToIcon(Integer.parseInt(editMoney.getContent()));
+        }
+
+        if(edit){
+            mLabel.setText(R.string.edit);
+        }
+    }
+
     private void mapView() {
         mView = findViewById(R.id.view);
         mAmount = findViewById(R.id.amount);
@@ -81,6 +119,9 @@ public class TransactionActivity extends AppCompatActivity {
         mIcon = findViewById(R.id.content_icon);
         mContent = findViewById(R.id.content);
         mNote = findViewById(R.id.add_note);
+        mLabel = findViewById(R.id.label);
+        mCurrency = findViewById(R.id.curency);
+        mCurrency.setText(Utils.mCurrency);
     }
 
     private void setContent() {
@@ -88,8 +129,8 @@ public class TransactionActivity extends AppCompatActivity {
         String content = intent.getStringExtra(ContentActivity.EXTRA_CONTENT);
         if(content != null) {
             mContent.setText(content);
-            int icon = intent.getIntExtra(ContentActivity.EXTRA_ICON, 0);
-            Glide.with(this).load(icon).into(mIcon);
+            icon = intent.getIntExtra(ContentActivity.EXTRA_ICON, 0);
+            mIcon.setImageResource(icon);
         }
         Bundle state = intent.getBundleExtra("state");
         if(state != null) {
@@ -106,19 +147,20 @@ public class TransactionActivity extends AppCompatActivity {
         }
     }
 
-    public static String getDateString(long date) {
+    public String getDateString(long date) {
         Calendar thisDate = Calendar.getInstance();
         thisDate.setTimeInMillis(date);
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat format;
+        Utils.setLocale(this, Utils.curLanguage.toLowerCase());
         if(thisDate.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR))
-        {format = new SimpleDateFormat("MMM d, yyyy", Locale.US);
-        return "Today, " + format.format(date);}
+        {format = new SimpleDateFormat("MMM d, yyyy", Locale.getDefault());
+        return this.getString(R.string.today) + ", " + format.format(date);}
         else  if(thisDate.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR)-1) {
-            format = new SimpleDateFormat("MMM d, yyyy", Locale.US);
-            return "Yesterday, " + format.format(date);}
+            format = new SimpleDateFormat("MMM d, yyyy", Locale.getDefault());
+            return this.getString(R.string.yesterday) + ", " + format.format(date);}
         else {
-            format = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+            format = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
             return format.format(date);
         }
     }
@@ -186,30 +228,29 @@ public class TransactionActivity extends AppCompatActivity {
 
 
     public void Submit(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        int i = Integer.parseInt(mAmount.getText().toString());
+        MoneyDatabase db = new MoneyDatabaseImpl(this);
 
-        if(mAmount.getText().toString().length()!=0 ) {
-            Intent intent = new Intent(this, MainActivity.class);
-            int i = Integer.parseInt(mAmount.getText().toString());
-            MoneyDatabase db = new MoneyDatabaseImpl(this);
-            MoneyEntry money = new MoneyEntry(i*choseInc, dateChose, mContent.getText().toString(), mNote.getText().toString());
-            /*db.insert(money);
-            startActivity(intent);*/
-            Intent intent = new Intent();
-            intent.putCharSequenceArrayListExtra("data", money);
-            setResult(Activity.RESULT_OK, intent);
-            finish();
-//            Bundle bundle = new Bundle();
-//            bundle.putInt("new_amount", i * choseInc);
-//            bundle.putInt("new_date", dateChose);
-//            bundle.putString("new_content", mContent.getText().toString());
-//            bundle.putInt("new_icon", mIcon.getImageAlpha());
-//            if(mNote.getText().toString().length()!=0){
-//                bundle.putBoolean("new_desc", true);
-//                bundle.putString("new_desc", mNote.getText().toString());
+        if(edit){
+            editMoney.setAmount(i*choseInc);
+            editMoney.setTime(dateChose);
+            editMoney.setContent(String.valueOf(Utils.iconToInt(icon)));
+            editMoney.setDescription(mNote.getText().toString());
+            db.update(editMoney);
         }
+        else if(mAmount.getText().toString().length()!=0 && icon>0 ) {
+            MoneyEntry money = new MoneyEntry(i*choseInc, dateChose,
+                    String.valueOf(Utils.iconToInt(icon)), mNote.getText().toString());
+            db.insert(money);
+        }
+        startActivity(intent);
+    }
 
-
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

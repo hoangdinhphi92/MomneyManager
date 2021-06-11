@@ -75,7 +75,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ContentH
             // Populate the textviews with data.
             this.content = currentContent;
             mContent.setText(currentContent.getContent());
-            Glide.with(mContent).load(currentContent.getImageResource()).into(mIcon);
+            mIcon.setImageResource(currentContent.getImageResource());
 
         }
 
